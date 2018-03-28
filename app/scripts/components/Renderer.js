@@ -5,7 +5,7 @@ import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effect
 export default class Renderer {
   constructor(color) {
     // create the renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias: true })
+    this.renderer = new THREE.WebGLRenderer({ antialias : true })
     console.log('Device pixel ratio: ' , window.devicePixelRatio)
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -15,8 +15,8 @@ export default class Renderer {
     this.renderer.precision = 'highp'
 
     // set default camera position for later retrieval
-    this.cameraDefaultPosition = {x:0, y:2, z:130}
-    this.cameraDefaultRotation = {x:0, y:0, z:0}
+    this.cameraDefaultPosition = { x : 0, y : 2, z : 130 }
+    this.cameraDefaultRotation = { x : 0, y : 0, z : 0 }
 
     // create the camera
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 20000)

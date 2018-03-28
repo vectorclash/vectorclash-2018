@@ -5,6 +5,7 @@ import tinycolor from 'tinycolor2'
 
 // custom component imports
 import Renderer from './components/Renderer'
+import ProjectShape from './components/ProjectShape'
 
 let renderer
 let scene, camera
@@ -16,20 +17,10 @@ function init() {
   scene = renderer.scene
   camera = renderer.camera
 
-  let ranColor = tinycolor.random()
-
-  let geometry = new THREE.IcosahedronGeometry(10, 1)
-  let material = new THREE.MeshStandardMaterial(
-    {
-      color : ranColor.toHexString(),
-      flatShading : true,
-      side : THREE.DoubleSide
-    }
-  )
-
-  let shape = new THREE.Mesh(geometry, material)
-
-  scene.add(shape)
+  for (let i = 0; i < 100; i++) {
+    let newShape = new ProjectShape()
+    scene.add(newShape.shape)
+  }
 
   TweenMax.ticker.addEventListener('tick', loop)
 }
