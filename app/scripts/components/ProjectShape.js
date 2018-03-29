@@ -1,12 +1,12 @@
 import * as THREE from 'three'
-import TweenMax from 'gsap'
+import { TweenMax, BezierPlugin } from 'gsap'
 import tinycolor from 'tinycolor2'
 
 export default class ProjectShape {
   constructor() {
     this.ranColor = tinycolor.random()
 
-    this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 3)
+    this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 1)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),
@@ -25,12 +25,24 @@ export default class ProjectShape {
   }
 
   moveShape() {
-    let ranTime = 2 + Math.random() * 10
+    let ranTime = 10 + Math.random() * 30
+    let ranXEnd = -100 + Math.random() * 200
+    let ranYEnd = -100 + Math.random() * 200
+    let ranZEnd = -100 + Math.random() * 200
+    let ranXMid1 = Math.random() * this.shape.position.x + (ranXEnd / 5)
+    let ranYMid1 = Math.random() * this.shape.position.y + (ranYEnd / 5)
+    let ranZMid1 = Math.random() * this.shape.position.z + (ranZEnd / 5)
 
     TweenMax.to(this.shape.position, ranTime, {
-      x : -100 + Math.random() * 200,
-      y : -100 + Math.random() * 200,
-      z : -100 + Math.random() * 200,
+      bezier : {
+        curviness : 2,
+        type : 'thru',
+        autoRotate : false,
+        values : [
+          { x : ranXMid1, y : ranYMid1, z : ranZMid1 },
+          { x : ranXEnd, y : ranYEnd, z : ranZEnd }
+        ]
+      },
       ease : Quad.easeInOut,
       onComplete : this.moveShape.bind(this)
     })
