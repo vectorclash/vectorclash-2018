@@ -5,13 +5,12 @@ import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effect
 export default class Renderer {
   constructor(color) {
     // create the renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias : true })
-    console.log('Device pixel ratio: ' , window.devicePixelRatio)
-    this.renderer.setPixelRatio(window.devicePixelRatio)
+    this.renderer = new THREE.WebGLRenderer({ alpha : true, antialias : true })
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setClearColor(color, 1)
+    this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    this.renderer.setClearColor(color)
     this.renderer.precision = 'highp'
 
     // set default camera position for later retrieval
@@ -29,7 +28,7 @@ export default class Renderer {
 
     // create the scene
     this.scene = new THREE.Scene()
-    this.scene.fog = new THREE.Fog(color, 1, 5000)
+    this.scene.fog = new THREE.Fog(color, 1, 2500)
 
     // create some lights
     this.ambientLight = new THREE.AmbientLight(0xfafafa, 0.2)
@@ -62,11 +61,12 @@ export default class Renderer {
     // create an orbit controller
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    // this.controls.minDistance = 500
-    // this.controls.maxDistance = 1200
+    this.controls.minDistance = 300
+    this.controls.maxDistance = 1200
     // this.controls.minPolarAngle = 0
     // this.controls.maxPolarAngle = (Math.PI / 2) + 0.02
     this.controls.enabled = true
+    // this.controls.enableDamping = true
     this.controls.update()
 
     // add an effect composer

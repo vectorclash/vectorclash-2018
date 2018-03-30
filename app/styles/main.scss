@@ -9,8 +9,18 @@
 }
 
 body {
+  position: relative;
   background: #fafafa;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
   margin: 0;
+  overflow: hidden;
+}
+
+.main-container {
+  background-image: linear-gradient(42deg, #4400a7, #ff0063);
+
+  canvas {
+    // mix-blend-mode: screen;
+  }
 }

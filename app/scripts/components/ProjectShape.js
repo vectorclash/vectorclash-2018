@@ -1,12 +1,17 @@
 import * as THREE from 'three'
-import { TweenMax, BezierPlugin } from 'gsap'
+import TweenMax from 'gsap'
 import tinycolor from 'tinycolor2'
 
 export default class ProjectShape {
   constructor() {
+    this.clock = new THREE.Clock
+    this.radius = 50 + Math.random() * 150
+    this.angle = 0
+    this.angleIncrease = 0.01 + Math.random() * 0.05
+
     this.ranColor = tinycolor.random()
 
-    this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 1)
+    this.geometry = new THREE.DodecahedronGeometry(5 + Math.random() * 15, 0)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),
@@ -19,13 +24,17 @@ export default class ProjectShape {
 
     this.shape.position.x = -100 + Math.random() * 200;
     this.shape.position.y = -100 + Math.random() * 200;
-    this.shape.position.z = -100 + Math.random() * 200;
+    // this.shape.position.z = -100 + Math.random() * 200;
 
-    this.moveShape()
+    this.shape.rotation.x = Math.random() * Math.PI;
+    this.shape.rotation.y = Math.random() * Math.PI;
+    this.shape.rotation.z = Math.random() * Math.PI;
+
+    // this.moveShape()
   }
 
   moveShape() {
-    let ranTime = 10 + Math.random() * 30
+    let ranTime = 1 + Math.random() * 3
     let ranXEnd = -100 + Math.random() * 200
     let ranYEnd = -100 + Math.random() * 200
     let ranZEnd = -100 + Math.random() * 200
@@ -53,5 +62,15 @@ export default class ProjectShape {
       z : Math.random() * Math.PI,
       ease : Quad.easeInOut
     })
+  }
+
+  update() {
+    let time = this.clock.getDelta() * 0.05
+
+    this.angle += noise.simplex2(this.angleIncrease, time) * 0.05
+
+    this.shape.position.x = Math.cos(this.angle) * this.radius
+    this.shape.position.y = Math.sin(this.angle) * this.radius
+    // this.shape.position.z = Math.sin(this.angle / this.angleIncrease) * this.radius
   }
 }
