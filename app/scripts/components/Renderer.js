@@ -28,7 +28,7 @@ export default class Renderer {
 
     // create the scene
     this.scene = new THREE.Scene()
-    this.scene.fog = new THREE.Fog(color, 1, 2500)
+    this.scene.fog = new THREE.Fog(color, 1, 2000)
 
     // create some lights
     this.ambientLight = new THREE.AmbientLight(0xfafafa, 0.2)
@@ -59,10 +59,9 @@ export default class Renderer {
     this.scene.add(this.directionalLightOne)
 
     // create an orbit controller
-
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.minDistance = 300
-    this.controls.maxDistance = 1200
+    this.controls.minDistance = 350
+    this.controls.maxDistance = 900
     // this.controls.minPolarAngle = 0
     // this.controls.maxPolarAngle = (Math.PI / 2) + 0.02
     this.controls.enabled = true
@@ -72,6 +71,10 @@ export default class Renderer {
     // add an effect composer
     this.composer = new EffectComposer(this.renderer)
     this.composer.addPass(new RenderPass(this.scene, this.camera))
+
+    this.RGBShaderPass = new ShaderPass(RGBShiftShader)
+    this.composer.addPass(this.RGBShaderPass)
+    this.RGBShaderPass.uniforms['amount'].value = 0.004
 
     const copyPass = new ShaderPass(CopyShader)
     copyPass.renderToScreen = true

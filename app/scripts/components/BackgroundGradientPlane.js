@@ -1,20 +1,37 @@
 import * as THREE from 'three'
+import tinycolor from 'tinycolor2'
 
 export default class BackgroundGradientPlane {
   constructor() {
-    let geometry = new THREE.PlaneGeometry(5000, 5000)
+    this.colorOne = tinycolor.random().toHexString()
+    this.colorTwo = tinycolor.random().toHexString()
+    this.colorThree = tinycolor.random().toHexString()
+
+    this.geometry = new THREE.PlaneGeometry(4000, 4000)
 
     let texture = new THREE.Texture( this.generateTexture() )
     texture.needsUpdate = true
 
-    let material = new THREE.MeshBasicMaterial(
+    this.material = new THREE.MeshBasicMaterial(
       {
         map : texture,
-        transparent : true
+        transparent : true,
+        side : THREE.DoubleSide
       }
     )
 
-    this.mesh = new THREE.Mesh(geometry, material)
+    this.mesh = new THREE.Mesh(this.geometry, this.material)
+
+    this.changeColor()
+  }
+
+  changeColor() {
+    TweenMax.to(this, 5, {
+      colorOne : tinycolor.random().toHexString(),
+      colorTwo : tinycolor.random().toHexString(),
+      colorThree : tinycolor.random().toHexString(),
+      onComplete : this.changeColor.bind(this)
+    })
   }
 
   generateTexture() {
@@ -31,11 +48,21 @@ export default class BackgroundGradientPlane {
   	// draw gradient
   	context.rect( 0, 0, size, size )
   	let gradient = context.createLinearGradient( 0, 0, size, size )
-  	gradient.addColorStop(0, '#41009e')
-  	gradient.addColorStop(1, '#ff0073')
+
+  	gradient.addColorStop(0.4, this.colorOne)
+  	gradient.addColorStop(0.5, this.colorTwo)
+    gradient.addColorStop(0.7, this.colorThree)
   	context.fillStyle = gradient
   	context.fill()
 
   	return canvas;
+  }
+
+  update() {
+    let texture = new THREE.Texture( this.generateTexture() )
+    texture.needsUpdate = true
+
+    this.material.map = texture
+    this.material.needsUpdate = true
   }
 }

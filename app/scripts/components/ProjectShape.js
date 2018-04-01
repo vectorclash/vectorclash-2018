@@ -11,7 +11,7 @@ export default class ProjectShape {
 
     this.ranColor = tinycolor.random()
 
-    this.geometry = new THREE.DodecahedronGeometry(5 + Math.random() * 15, 0)
+    this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 2)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),
@@ -24,7 +24,7 @@ export default class ProjectShape {
 
     this.shape.position.x = -100 + Math.random() * 200;
     this.shape.position.y = -100 + Math.random() * 200;
-    // this.shape.position.z = -100 + Math.random() * 200;
+    this.shape.position.z = -20 + Math.random() * 40;
 
     this.shape.rotation.x = Math.random() * Math.PI;
     this.shape.rotation.y = Math.random() * Math.PI;
@@ -71,6 +71,6 @@ export default class ProjectShape {
 
     this.shape.position.x = Math.cos(this.angle) * this.radius
     this.shape.position.y = Math.sin(this.angle) * this.radius
-    // this.shape.position.z = Math.sin(this.angle / this.angleIncrease) * this.radius
+    this.shape.position.z = noise.simplex2(this.angleIncrease, time) * 100
   }
 }
