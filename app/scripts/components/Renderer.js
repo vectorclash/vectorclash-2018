@@ -86,8 +86,8 @@ export default class Renderer {
 
   render() {
     this.controls.update()
-    // this.renderer.render(this.scene, this.camera)
-    this.composer.render()
+    this.renderer.render(this.scene, this.camera)
+    // this.composer.render()
   }
 
   onWindowResize() {

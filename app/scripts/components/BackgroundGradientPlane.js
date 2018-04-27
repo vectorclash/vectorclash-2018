@@ -15,8 +15,7 @@ export default class BackgroundGradientPlane {
     this.material = new THREE.MeshBasicMaterial(
       {
         map : texture,
-        transparent : true,
-        side : THREE.DoubleSide
+        transparent : true
       }
     )
 

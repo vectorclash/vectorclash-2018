@@ -3,13 +3,16 @@ import TweenMax from 'gsap'
 import tinycolor from 'tinycolor2'
 
 export default class ProjectShape {
-  constructor() {
+  constructor(id) {
+    this.id = id
     this.clock = new THREE.Clock
-    this.radius = 50 + Math.random() * 150
+    this.radius = id * 30
     this.angle = 0
     this.angleIncrease = 0.01 + Math.random() * 0.05
 
     this.ranColor = tinycolor.random()
+
+    this.container = new THREE.Object3D()
 
     this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 2)
     this.material = new THREE.MeshStandardMaterial(
@@ -22,13 +25,15 @@ export default class ProjectShape {
 
     this.shape = new THREE.Mesh(this.geometry, this.material)
 
-    this.shape.position.x = -100 + Math.random() * 200;
-    this.shape.position.y = -100 + Math.random() * 200;
-    this.shape.position.z = -20 + Math.random() * 40;
+    this.shape.position.x = -100 + Math.random() * 200
+    this.shape.position.y = -100 + Math.random() * 200
+    this.shape.position.z = -20 + Math.random() * 40
 
-    this.shape.rotation.x = Math.random() * Math.PI;
-    this.shape.rotation.y = Math.random() * Math.PI;
-    this.shape.rotation.z = Math.random() * Math.PI;
+    this.shape.rotation.x = Math.random() * Math.PI
+    this.shape.rotation.y = Math.random() * Math.PI
+    this.shape.rotation.z = Math.random() * Math.PI
+
+    this.container.add(this.shape)
 
     // this.moveShape()
   }
@@ -65,12 +70,16 @@ export default class ProjectShape {
   }
 
   update() {
-    let time = this.clock.getDelta() * 0.05
+    let time = this.clock.getDelta() * 0.02
 
     this.angle += noise.simplex2(this.angleIncrease, time) * 0.05
 
     this.shape.position.x = Math.cos(this.angle) * this.radius
     this.shape.position.y = Math.sin(this.angle) * this.radius
     this.shape.position.z = noise.simplex2(this.angleIncrease, time) * 100
+
+    this.container.rotation.x += 0.003
+    this.container.rotation.y += 0.002
+    this.container.rotation.z += 0.0029
   }
 }

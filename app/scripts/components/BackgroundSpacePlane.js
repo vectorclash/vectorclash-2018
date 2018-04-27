@@ -11,7 +11,6 @@ export default class BackgroundGradientPlane {
       {
         map : texture,
         transparent : true,
-        side : THREE.DoubleSide,
         opacity : 1
       }
     )
