@@ -61,16 +61,17 @@ export default class Renderer {
     // create an orbit controller
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.minDistance = 350
-    this.controls.maxDistance = 900
+    this.controls.maxDistance = 800
     // this.controls.minPolarAngle = 0
     // this.controls.maxPolarAngle = (Math.PI / 2) + 0.02
     this.controls.enabled = true
-    // this.controls.enableDamping = true
+    this.controls.enableDamping = true
     this.controls.update()
 
     // add an effect composer
     this.composer = new EffectComposer(this.renderer)
     this.composer.addPass(new RenderPass(this.scene, this.camera))
+    this.composer.setSize(window.innerWidth, window.innerHeight)
 
     this.RGBShaderPass = new ShaderPass(RGBShiftShader)
     this.composer.addPass(this.RGBShaderPass)

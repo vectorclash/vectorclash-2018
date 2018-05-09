@@ -8,13 +8,14 @@ export default class ProjectShape {
     this.clock = new THREE.Clock
     this.radius = id * 30
     this.angle = 0
+    this.scale = 0.5 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
 
     this.ranColor = tinycolor.random()
 
     this.container = new THREE.Object3D()
 
-    this.geometry = new THREE.TetrahedronGeometry(5 + Math.random() * 15, 2)
+    this.geometry = new THREE.TetrahedronGeometry(10, 2)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),
@@ -33,50 +34,81 @@ export default class ProjectShape {
     this.shape.rotation.y = Math.random() * Math.PI
     this.shape.rotation.z = Math.random() * Math.PI
 
+    this.shape.scale.x = this.scale
+    this.shape.scale.y = this.scale
+    this.shape.scale.z = this.scale
+
     this.container.add(this.shape)
 
-    // this.moveShape()
+    this.status = 'standby'
+
+    return this
   }
 
-  moveShape() {
-    let ranTime = 1 + Math.random() * 3
-    let ranXEnd = -100 + Math.random() * 200
-    let ranYEnd = -100 + Math.random() * 200
-    let ranZEnd = -100 + Math.random() * 200
-    let ranXMid1 = Math.random() * this.shape.position.x + (ranXEnd / 5)
-    let ranYMid1 = Math.random() * this.shape.position.y + (ranYEnd / 5)
-    let ranZMid1 = Math.random() * this.shape.position.z + (ranZEnd / 5)
+  openProject() {
+    // open the project
+    console.log('opening project #', this.id)
+    this.status = 'active'
 
-    TweenMax.to(this.shape.position, ranTime, {
-      bezier : {
-        curviness : 2,
-        type : 'thru',
-        autoRotate : false,
-        values : [
-          { x : ranXMid1, y : ranYMid1, z : ranZMid1 },
-          { x : ranXEnd, y : ranYEnd, z : ranZEnd }
-        ]
-      },
-      ease : Quad.easeInOut,
-      onComplete : this.moveShape.bind(this)
+    TweenMax.to(this.shape.scale, 1.5, {
+      x : 100,
+      y : 100,
+      z : 100,
+      ease : Elastic.easeOut,
+      delay : 0.5
     })
 
-    TweenMax.to(this.shape.rotation, ranTime, {
-      x : Math.random() * Math.PI,
-      y : Math.random() * Math.PI,
-      z : Math.random() * Math.PI,
-      ease : Quad.easeInOut
+    TweenMax.to(this.shape.position, 1, {
+      x : 0,
+      y : 0,
+      z : 0,
+      ease : Expo.easeOut
+    })
+  }
+
+  closeProject() {
+    this.status = 'standby'
+
+    TweenMax.to(this.shape.scale, 1, {
+      x : this.scale,
+      y : this.scale,
+      z : this.scale,
+      ease : Back.easeOut
+    })
+  }
+
+  disableProject() {
+    this.status = 'inactive'
+
+    TweenMax.to(this.shape.scale, 1, {
+      x : 0.01,
+      y : 0.01,
+      z : 0.01,
+      ease : Expo.easeOut
+    })
+
+    TweenMax.to(this.shape.position, 1, {
+      x : 0,
+      y : 0,
+      z : 0,
+      ease : Expo.easeOut
     })
   }
 
   update() {
-    let time = this.clock.getDelta() * 0.02
+    if(this.status == 'standby') {
+      let time = this.clock.getDelta() * 0.02
 
-    this.angle += noise.simplex2(this.angleIncrease, time) * 0.05
+      this.angle += noise.simplex2(this.angleIncrease, time) * 0.05
 
-    this.shape.position.x = Math.cos(this.angle) * this.radius
-    this.shape.position.y = Math.sin(this.angle) * this.radius
-    this.shape.position.z = noise.simplex2(this.angleIncrease, time) * 100
+      this.shape.position.x = Math.cos(this.angle) * this.radius
+      this.shape.position.y = Math.sin(this.angle) * this.radius
+      this.shape.position.z = noise.simplex2(this.angleIncrease, time) * 100
+    } else if(this.status == 'active') {
+
+    } else if(this.status == 'inactive') {
+
+    }
 
     this.container.rotation.x += 0.003
     this.container.rotation.y += 0.002

@@ -8,7 +8,7 @@ export default class ParticleField {
     this.particleMaterial = new THREE.PointsMaterial({
       size : 20,
       map : texture,
-      blending : THREE.AdditiveBlending,
+      blending : THREE.NormalBlending,
       transparent : true,
       opacity : 0.2,
       depthWrite : false
