@@ -50,12 +50,12 @@ export default class ProjectShape {
     console.log('opening project #', this.id)
     this.status = 'active'
 
-    TweenMax.to(this.shape.scale, 1.5, {
+    TweenMax.to(this.shape.scale, 2, {
       x : 100,
       y : 100,
       z : 100,
-      ease : Elastic.easeOut,
-      delay : 0.5
+      ease : Expo.easeOut,
+      delay : 0.2
     })
 
     TweenMax.to(this.shape.position, 1, {
@@ -73,7 +73,7 @@ export default class ProjectShape {
       x : this.scale,
       y : this.scale,
       z : this.scale,
-      ease : Back.easeOut
+      ease : Expo.easeOut
     })
   }
 

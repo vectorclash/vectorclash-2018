@@ -34,7 +34,7 @@ export default class Renderer {
     this.ambientLight = new THREE.AmbientLight(0xfafafa, 0.2)
   	this.scene.add(this.ambientLight)
 
-    this.spotLightOne = new THREE.SpotLight(0xffffff, 0.5)
+    this.spotLightOne = new THREE.SpotLight(Math.random() * 0xffffff, 0.5)
     this.spotLightOne.position.set( -100, 2000, 100 )
     this.spotLightOne.castShadow = true
 
@@ -47,7 +47,7 @@ export default class Renderer {
 
     this.scene.add(this.spotLightOne)
 
-    this.spotLightTwo = new THREE.SpotLight(0xffffff, 0.5)
+    this.spotLightTwo = new THREE.SpotLight(Math.random() * 0xffffff, 0.5)
     this.spotLightTwo.position.set(1500, 20000, 800)
     this.spotLightTwo.rotation.set(0, 0, Math.PI)
 

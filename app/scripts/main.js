@@ -20,6 +20,7 @@ let mouse
 let interactiveObjects = []
 let projects = []
 let projectIsActive = false
+let closeButton, closeButtonHit
 
 let background, space, particles, shapeSwirl
 
@@ -66,6 +67,13 @@ function init() {
   shapeSwirl = new WireframeShapeSwirl(10)
   scene.add(shapeSwirl.container)
 
+  closeButton = document.querySelector('.close-button')
+  closeButtonHit = document.querySelector('.close-button-hitarea')
+  TweenMax.set(closeButton, {
+    scaleX : 0.6,
+    scaleY : 0.6
+  })
+
   window.addEventListener('mousemove', onMouseMove)
   window.addEventListener('click', onClick)
   renderer.rendererElement.addEventListener('touchstart', onTouchStart)
@@ -80,7 +88,7 @@ function onMouseMove(event) {
   raycaster.setFromCamera(mouse, camera)
 
   let intersects = raycaster.intersectObjects(interactiveObjects)
-  if(intersects.length > 0) {
+  if(intersects.length > 0 && !projectIsActive) {
     mainContainer.style.cursor = 'pointer'
   } else {
     mainContainer.style.cursor = 'auto'
@@ -95,8 +103,8 @@ function onClick(event) {
 
 function onTouchStart(event) {
   event.preventDefault()
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+  mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
   testInteractiveObjects()
 }
 
@@ -116,15 +124,27 @@ function testInteractiveObjects() {
       projectIsActive = true
       disableSpaceBackground()
     }
-  } else {
-    for(let i = 0; i < projects.length; i++) {
-      projects[i].closeProject()
-      enableSpaceBackground()
-    }
   }
 }
 
 function disableSpaceBackground() {
+  mainContainer.style.cursor = 'auto'
+
+  window.removeEventListener('click', onClick)
+  renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
+
+  TweenMax.from(closeButton, 1, {
+    y : 360,
+    alpha : 0,
+    ease : Expo.easeOut,
+    onStart : () => {
+      closeButton.style.display = 'block'
+    },
+    onComplete : () => {
+      closeButtonHit.addEventListener('click', closeProject)
+    }
+  })
+
   TweenMax.to(background.mesh.position, 1, {
     z : -2000,
     ease : Quad.easeOut
@@ -134,11 +154,27 @@ function disableSpaceBackground() {
     z : -2000,
     ease : Quad.easeOut
   })
+
+  TweenMax.to(shapeSwirl.container.scale, 2, {
+    x : 0.5,
+    y : 0.5,
+    z : 0.5,
+    ease : Expo.easeOut
+  })
 }
 
 function enableSpaceBackground() {
-  mainContainer.style.cursor = 'auto'
-  
+  TweenMax.to(closeButton, 1, {
+    alpha : 0,
+    ease : Expo.easeOut,
+    onComplete : () => {
+      closeButton.style.display = 'none'
+      closeButton.style.opacity = 1
+      window.addEventListener('click', onClick)
+      renderer.rendererElement.addEventListener('touchstart', onTouchStart)
+    }
+  })
+
   TweenMax.to(background.mesh.position, 2, {
     z : -360,
     ease : Expo.easeOut
@@ -149,7 +185,21 @@ function enableSpaceBackground() {
     ease : Expo.easeOut
   })
 
+  TweenMax.to(shapeSwirl.container.scale, 2, {
+    x : 1,
+    y : 1,
+    z : 1,
+    ease : Elastic.easeOut
+  })
+
   projectIsActive = false
+}
+
+function closeProject() {
+  for(let i = 0; i < projects.length; i++) {
+    projects[i].closeProject()
+    enableSpaceBackground()
+  }
 }
 
 function loop() {

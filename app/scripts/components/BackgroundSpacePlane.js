@@ -2,20 +2,32 @@ import * as THREE from 'three'
 
 export default class BackgroundGradientPlane {
   constructor() {
-
     let geometry = new THREE.PlaneGeometry(1500, 1500)
-
-    let texture = new THREE.TextureLoader().load( 'textures/space-4096.png' );
-
     let material = new THREE.MeshBasicMaterial(
       {
-        map : texture,
         transparent : true,
-        opacity : 1
+        opacity : 0,
+        depthWrite : true
       }
     )
 
     this.mesh = new THREE.Mesh(geometry, material)
+
+    let loader = new THREE.TextureLoader()
+    loader.load(
+      'textures/space-4096.png',
+      (texture) => {
+        this.mesh.material.map = texture
+        this.mesh.material.needsUpdate = true
+
+        TweenMax.to(this.mesh.material, 2,
+          {
+            opacity : 1,
+            ease : Quad.easeOut
+          }
+        )
+      }
+    )
   }
 
   update() {

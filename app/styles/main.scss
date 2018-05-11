@@ -21,7 +21,35 @@ body {
   z-index: 0;
   background-image: linear-gradient(42deg, #4400a7, #ff0063);
 
+  .close-button {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    margin-left: -769px * 0.5;
+    width: 769px;
+    height: 360px;
+    background-image: url(../images/close-button.png);
+    display: none;
+    pointer-events: none;
+    transform-origin: bottom;
+    z-index: 100;
+    mix-blend-mode: hard-light;
+
+    .close-button-hitarea {
+      position: absolute;
+      bottom: 42px;
+      left: 50%;
+      margin-left: -50px;
+      width: 100px;
+      height: 100px;
+      background-color: transparent;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+  }
+
   canvas {
     // mix-blend-mode: screen;
+    z-index: 50;
   }
 }
