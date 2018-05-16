@@ -60,8 +60,8 @@ export default class Renderer {
 
     // create an orbit controller
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.minDistance = 350
-    this.controls.maxDistance = 800
+    this.controls.minDistance = 200
+    this.controls.maxDistance = 500
     // this.controls.minPolarAngle = 0
     // this.controls.maxPolarAngle = (Math.PI / 2) + 0.02
     this.controls.enabled = true

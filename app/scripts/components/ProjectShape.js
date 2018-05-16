@@ -16,7 +16,7 @@ export default class ProjectShape {
 
     this.container = new THREE.Object3D()
 
-    this.geometry = new THREE.TetrahedronGeometry(10, 2)
+    this.geometry = new THREE.IcosahedronGeometry(10, 1)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),

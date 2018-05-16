@@ -15,7 +15,7 @@ export default class WireframeShapeSwirl {
         wireframe : true,
         fog : false,
         transparent : true,
-        opacity : 0.2,
+        opacity : 0.3,
         depthWrite : false,
         color : tinycolor({h : i / shapeNum * 255, s : 100, l : 50}).toHexString()
       })

@@ -26,7 +26,7 @@ let background, space, particles, shapeSwirl
 function init() {
   mainContainer = document.querySelector('.main-container')
 
-  renderer = new Renderer(0x140057)
+  renderer = new Renderer(0xff006b)
   mainContainer.appendChild(renderer.rendererElement)
 
   scene = renderer.scene
@@ -48,10 +48,16 @@ function init() {
   scene.add(background.mesh)
   needUpdate.push(background)
 
-  space = new BackgroundSpacePlane()
-  space.mesh.position.z = -350
-  scene.add(space.mesh)
-  needUpdate.push(space)
+  let spaceLoader = new THREE.TextureLoader()
+  spaceLoader.load(
+    'images/textures/space-4096.png',
+    (texture) => {
+      space = new BackgroundSpacePlane(texture)
+      space.mesh.position.z = -350
+      scene.add(space.mesh)
+      needUpdate.push(space)
+    }
+  )
 
   let starLoader = new THREE.TextureLoader()
   starLoader.load(
@@ -63,7 +69,7 @@ function init() {
     }
   )
 
-  shapeSwirl = new WireframeShapeSwirl(10)
+  shapeSwirl = new WireframeShapeSwirl(20)
   scene.add(shapeSwirl.container)
 
   closeButton = document.querySelector('.close-button')

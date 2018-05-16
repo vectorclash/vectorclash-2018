@@ -10,7 +10,7 @@ export default class ParticleField {
       map : texture,
       blending : THREE.NormalBlending,
       transparent : true,
-      opacity : 0.2,
+      opacity : 0.8,
       depthWrite : false
     })
 
