@@ -84,14 +84,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin()))
     .pipe(gulp.dest('dist/images'));
-});
-
-gulp.task('textures', () => {
-  return gulp.src('app/textures/**/*')
-    .pipe($.cache($.imagemin()))
-    .pipe(gulp.dest('dist/textures'));
 });
 
 gulp.task('fonts', () => {
@@ -182,7 +175,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'textures', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

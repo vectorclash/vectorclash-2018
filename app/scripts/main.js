@@ -21,7 +21,6 @@ let interactiveObjects = []
 let projects = []
 let projectIsActive = false
 let closeButton, closeButtonHit
-
 let background, space, particles, shapeSwirl
 
 function init() {
@@ -56,7 +55,7 @@ function init() {
 
   let starLoader = new THREE.TextureLoader()
   starLoader.load(
-    'textures/star-1024.png',
+    'images/textures/star-1024.png',
     (texture) => {
       particles = new ParticleField(1000, texture)
       scene.add(particles.particleSystem)
@@ -156,9 +155,9 @@ function disableSpaceBackground() {
   })
 
   TweenMax.to(shapeSwirl.container.scale, 2, {
-    x : 0.5,
-    y : 0.5,
-    z : 0.5,
+    x : 2,
+    y : 2,
+    z : 2,
     ease : Expo.easeOut
   })
 }
@@ -175,12 +174,12 @@ function enableSpaceBackground() {
     }
   })
 
-  TweenMax.to(background.mesh.position, 2, {
+  TweenMax.to(background.mesh.position, 1, {
     z : -360,
     ease : Expo.easeOut
   })
 
-  TweenMax.to(space.mesh.position, 2, {
+  TweenMax.to(space.mesh.position, 1, {
     z : -350,
     ease : Expo.easeOut
   })

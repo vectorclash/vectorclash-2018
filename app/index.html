@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>vectorclash</title>
+    <title>Vectorclash</title>
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
@@ -16,23 +16,33 @@
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
     <!-- endbuild -->
 
   </head>
   <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
     <div class="main-container">
       <div class="close-button">
         <div class="close-button-hitarea"></div>
       </div>
+
+      <div class="html-content">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <img src="images/logo.png" alt="Vectorclash" class="logo">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- build:js scripts/vendor.js -->
+    <script src="scripts/tools/jquery-3.3.1.min.js"></script>
+    <script src="scripts/tools/popper.min.js"></script>
+    <script src="scripts/tools/bootstrap.min.js"></script>
     <script src="scripts/tools/perlin.js"></script>
-    <script src="scripts/shaders/RGBShiftShader.js"></script>
+
     <!-- bower:js -->
     <!-- endbower -->
     <!-- endbuild -->

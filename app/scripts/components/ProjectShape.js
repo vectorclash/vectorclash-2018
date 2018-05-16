@@ -7,9 +7,10 @@ export default class ProjectShape {
     this.id = id
     this.clock = new THREE.Clock
     this.radius = id * 30
-    this.angle = 0
+    this.angle = Math.random() * 10
     this.scale = 0.5 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
+    this.deformationRange = 0.1
 
     this.ranColor = tinycolor.random()
 
@@ -25,6 +26,13 @@ export default class ProjectShape {
     )
 
     this.shape = new THREE.Mesh(this.geometry, this.material)
+
+    this.vertices = []
+    for(let i = 0; i < this.shape.geometry.vertices.length; i++) {
+      let vertex = this.shape.geometry.vertices[i]
+      let newVertex = new THREE.Vector3(vertex.x, vertex.y, vertex.z)
+      this.vertices.push(newVertex)
+    }
 
     this.shape.position.x = -100 + Math.random() * 200
     this.shape.position.y = -100 + Math.random() * 200
@@ -47,7 +55,7 @@ export default class ProjectShape {
 
   openProject() {
     // open the project
-    console.log('opening project #', this.id)
+    // console.log('opening project #', this.id)
     this.status = 'active'
 
     TweenMax.to(this.shape.scale, 2, {
@@ -69,12 +77,25 @@ export default class ProjectShape {
   closeProject() {
     this.status = 'standby'
 
-    TweenMax.to(this.shape.scale, 1, {
+    TweenMax.to(this.shape.scale, 0.5, {
       x : this.scale,
       y : this.scale,
       z : this.scale,
-      ease : Expo.easeOut
+      ease : Power1.easeOut
     })
+
+    for(let i = 0; i < this.shape.geometry.vertices.length; i++) {
+      TweenMax.to(this.shape.geometry.vertices[i], 1, {
+        x : this.vertices[i].x,
+        y : this.vertices[i].y,
+        z : this.vertices[i].z,
+        ease : Bounce.easeOut,
+        delay : i * 0.02,
+        onUpdate : () => {
+          this.shape.geometry.verticesNeedUpdate = true
+        }
+      })
+    }
   }
 
   disableProject() {
@@ -97,21 +118,30 @@ export default class ProjectShape {
 
   update() {
     if(this.status == 'standby') {
-      let time = this.clock.getDelta() * 0.02
+      let time = this.clock.getElapsedTime() * 0.05
 
-      this.angle += noise.simplex2(this.angleIncrease, time) * 0.05
+      this.angle += noise.simplex2(this.angleIncrease, time) * 0.01
 
       this.shape.position.x = Math.cos(this.angle) * this.radius
       this.shape.position.y = Math.sin(this.angle) * this.radius
       this.shape.position.z = noise.simplex2(this.angleIncrease, time) * 100
     } else if(this.status == 'active') {
+      for (var i = 0; i < this.shape.geometry.vertices.length; i++) {
+        let time1 = this.clock.getElapsedTime() * 0.1
+        let time2 = this.clock.getElapsedTime() * 0.2
+        let time3 = this.clock.getElapsedTime() * 0.15
 
+        this.shape.geometry.vertices[i].x = this.vertices[i].x * ((1 - this.deformationRange) + noise.simplex2(time1, i) * this.deformationRange)
+        this.shape.geometry.vertices[i].y = this.vertices[i].y * ((1 - this.deformationRange) + noise.simplex2(time2, i) * this.deformationRange)
+        this.shape.geometry.vertices[i].z = this.vertices[i].z * ((1 - this.deformationRange) + noise.simplex2(time3, i) * this.deformationRange)
+        this.shape.geometry.verticesNeedUpdate = true
+      }
     } else if(this.status == 'inactive') {
 
     }
 
-    this.container.rotation.x += 0.003
-    this.container.rotation.y += 0.002
-    this.container.rotation.z += 0.0029
+    this.container.rotation.x += 0.0003
+    this.container.rotation.y += 0.0002
+    this.container.rotation.z += 0.00029
   }
 }

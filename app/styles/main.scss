@@ -1,13 +1,6 @@
 // bower:scss
 // endbower
 
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
 body {
   position: relative;
   background: #fafafa;
@@ -18,8 +11,27 @@ body {
 }
 
 .main-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   background-image: linear-gradient(42deg, #4400a7, #ff0063);
+
+  .html-content {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 9999;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+
+    .logo {
+      margin-top: 20px;
+      width: 90px;
+      height: 90px;
+      pointer-events: none;
+    }
+  }
 
   .close-button {
     position: fixed;
@@ -33,7 +45,7 @@ body {
     pointer-events: none;
     transform-origin: bottom;
     z-index: 100;
-    mix-blend-mode: hard-light;
+    mix-blend-mode: lighten;
 
     .close-button-hitarea {
       position: absolute;
@@ -49,7 +61,9 @@ body {
   }
 
   canvas {
-    // mix-blend-mode: screen;
+    position: fixed;
+    width: 100%;
+    height: 100%;
     z-index: 50;
   }
 }

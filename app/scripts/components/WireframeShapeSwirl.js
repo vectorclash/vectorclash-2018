@@ -15,7 +15,7 @@ export default class WireframeShapeSwirl {
         wireframe : true,
         fog : false,
         transparent : true,
-        opacity : 0.4,
+        opacity : 0.2,
         depthWrite : false,
         color : tinycolor({h : i / shapeNum * 255, s : 100, l : 50}).toHexString()
       })
@@ -38,7 +38,7 @@ export default class WireframeShapeSwirl {
       rX : -10 + Math.random() * 20,
       rY : -10 + Math.random() * 20,
       rZ : -10 + Math.random() * 20,
-      ease : Power1.easeOut,
+      ease : Power1.easeInOut,
       onUpdate : this.update.bind(this),
       onComplete : this.changeRotation.bind(this)
     })

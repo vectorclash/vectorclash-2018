@@ -15,7 +15,7 @@ export default class BackgroundGradientPlane {
 
     let loader = new THREE.TextureLoader()
     loader.load(
-      'textures/space-4096.png',
+      'images/textures/space-4096.png',
       (texture) => {
         this.mesh.material.map = texture
         this.mesh.material.needsUpdate = true
