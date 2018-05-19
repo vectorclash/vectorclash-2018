@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import OrbitControls from 'orbit-controls-es6'
-// import EffectComposer, { RenderPass, ShaderPass, CopyShader } from 'three-effectcomposer-es6'
 
 export default class Renderer {
   constructor(color) {
@@ -29,6 +28,10 @@ export default class Renderer {
     // create the scene
     this.scene = new THREE.Scene()
     this.scene.fog = new THREE.Fog(color, 1, 2000)
+    TweenMax.from(this.scene.fog, 3, {
+      far : 1,
+      ease : Expo.easeOut
+    })
 
     // create some lights
     this.ambientLight = new THREE.AmbientLight(0xfafafa, 0.2)
@@ -62,33 +65,29 @@ export default class Renderer {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.minDistance = 200
     this.controls.maxDistance = 500
-    // this.controls.minPolarAngle = 0
-    // this.controls.maxPolarAngle = (Math.PI / 2) + 0.02
+    this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
+    this.controls.maxPolarAngle = Math.PI - (Math.PI / 5)
+    this.controls.minAzimuthAngle = - Math.PI / 3
+    this.controls.maxAzimuthAngle = Math.PI / 3
     this.controls.enabled = true
     this.controls.enableDamping = true
     this.controls.update()
-
-    // add an effect composer
-    // this.composer = new EffectComposer(this.renderer)
-    // this.composer.addPass(new RenderPass(this.scene, this.camera))
-    // this.composer.setSize(window.innerWidth, window.innerHeight)
-
-    // this.RGBShaderPass = new ShaderPass(RGBShiftShader)
-    // this.composer.addPass(this.RGBShaderPass)
-    // this.RGBShaderPass.uniforms['amount'].value = 0.004
-
-    // const copyPass = new ShaderPass(CopyShader)
-    // copyPass.renderToScreen = true
-    // this.composer.addPass(copyPass)
 
     // reset the projection matrix on resize
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
   }
 
+  adjustFog(time, near, far) {
+    TweenMax.to(this.scene.fog, time, {
+      near : near,
+      far : far,
+      ease : Expo.easeOut
+    })
+  }
+
   render() {
     this.controls.update()
     this.renderer.render(this.scene, this.camera)
-    // this.composer.render()
   }
 
   onWindowResize() {

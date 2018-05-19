@@ -22,6 +22,7 @@ let projects = []
 let projectIsActive = false
 let closeButton, closeButtonHit
 let background, space, particles, shapeSwirl
+let data
 
 function init() {
   mainContainer = document.querySelector('.main-container')
@@ -35,42 +36,62 @@ function init() {
   raycaster = new THREE.Raycaster()
   mouse = new THREE.Vector2()
 
-  for (let i = 0; i < 10; i++) {
-    let newShape = new ProjectShape(i)
-    projects.push(newShape)
-    scene.add(newShape.container)
-    needUpdate.push(newShape)
-    interactiveObjects.push(newShape.shape)
-  }
-
-  background = new BackgroundGradientPlane()
-  background.mesh.position.z = -360
-  scene.add(background.mesh)
-  needUpdate.push(background)
-
-  let spaceLoader = new THREE.TextureLoader()
-  spaceLoader.load(
-    'images/textures/space-4096.png',
-    (texture) => {
-      space = new BackgroundSpacePlane(texture)
-      space.mesh.position.z = -350
-      scene.add(space.mesh)
-      needUpdate.push(space)
-    }
-  )
-
-  let starLoader = new THREE.TextureLoader()
-  starLoader.load(
-    'images/textures/star-1024.png',
-    (texture) => {
-      particles = new ParticleField(1000, texture)
-      scene.add(particles.particleSystem)
-      needUpdate.push(particles)
-    }
-  )
-
   shapeSwirl = new WireframeShapeSwirl(20)
   scene.add(shapeSwirl.container)
+  shapeSwirl.container.scale.set(0.03, 0.03, 0.03)
+  TweenMax.from(shapeSwirl.container.scale, 1, {
+    x : 0.0001,
+    y : 0.0001,
+    z : 0.0001,
+    ease : Elastic.easeOut
+  })
+
+  $.get({
+    url : 'http://www.vectorclash.com/data/projects?_format=json',
+    success : (data) => {
+      data = data
+      for (let i = 0; i < data.length; i++) {
+        let newShape = new ProjectShape(i)
+        projects.push(newShape)
+        scene.add(newShape.container)
+        needUpdate.push(newShape)
+        interactiveObjects.push(newShape.shape)
+      }
+
+      TweenMax.to(shapeSwirl.container.scale, 1, {
+        x : 1,
+        y : 1,
+        z : 1,
+        ease : Expo.easeOut
+      })
+
+      background = new BackgroundGradientPlane()
+      background.mesh.position.z = -360
+      scene.add(background.mesh)
+      needUpdate.push(background)
+
+      let spaceLoader = new THREE.TextureLoader()
+      spaceLoader.load(
+        'images/textures/space-4096.png',
+        (texture) => {
+          space = new BackgroundSpacePlane(texture)
+          space.mesh.position.z = -350
+          scene.add(space.mesh)
+          needUpdate.push(space)
+        }
+      )
+
+      let starLoader = new THREE.TextureLoader()
+      starLoader.load(
+        'images/textures/star-1024.png',
+        (texture) => {
+          particles = new ParticleField(1000, texture)
+          scene.add(particles.particleSystem)
+          needUpdate.push(particles)
+        }
+      )
+    }
+  })
 
   closeButton = document.querySelector('.close-button')
   closeButtonHit = document.querySelector('.close-button-hitarea')
@@ -95,8 +116,18 @@ function onMouseMove(event) {
   let intersects = raycaster.intersectObjects(interactiveObjects)
   if(intersects.length > 0 && !projectIsActive) {
     mainContainer.style.cursor = 'pointer'
+    for(let i = 0; i < interactiveObjects.length; i++) {
+      if(interactiveObjects[i] == intersects[0].object) {
+        projects[i].rolloverProject()
+      } else {
+        projects[i].rolloutProject()
+      }
+    }
   } else {
     mainContainer.style.cursor = 'auto'
+    for (var i = 0; i < projects.length; i++) {
+      projects[i].rolloutProject()
+    }
   }
 }
 
@@ -138,6 +169,8 @@ function disableSpaceBackground() {
   window.removeEventListener('click', onClick)
   renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
 
+  renderer.adjustFog(2, 1, 4000)
+
   TweenMax.from(closeButton, 1, {
     y : 360,
     alpha : 0,
@@ -166,9 +199,17 @@ function disableSpaceBackground() {
     z : 2,
     ease : Expo.easeOut
   })
+
+  TweenMax.to('.title', 0.5, {
+    alpha : 0,
+    y : 20,
+    ease : Quad.easeOut
+  })
 }
 
 function enableSpaceBackground() {
+  renderer.adjustFog(2, 1, 2000)
+
   TweenMax.to(closeButton, 1, {
     alpha : 0,
     ease : Expo.easeOut,
@@ -195,6 +236,12 @@ function enableSpaceBackground() {
     y : 1,
     z : 1,
     ease : Elastic.easeOut
+  })
+
+  TweenMax.to('.title', 1, {
+    alpha : 0.5,
+    y : 0,
+    ease : Quad.easeOut
   })
 
   projectIsActive = false

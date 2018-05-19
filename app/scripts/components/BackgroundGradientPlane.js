@@ -7,7 +7,7 @@ export default class BackgroundGradientPlane {
     this.colorTwo = tinycolor.random().toHexString()
     this.colorThree = tinycolor.random().toHexString()
 
-    this.geometry = new THREE.PlaneGeometry(4000, 4000)
+    this.geometry = new THREE.PlaneGeometry(6000, 6000)
 
     let texture = new THREE.Texture( this.generateTexture() )
     texture.needsUpdate = true
@@ -48,7 +48,7 @@ export default class BackgroundGradientPlane {
   	context.rect( 0, 0, size, size )
   	let gradient = context.createLinearGradient( 0, 0, size, size )
 
-  	gradient.addColorStop(0.4, this.colorOne)
+  	gradient.addColorStop(0.3, this.colorOne)
   	gradient.addColorStop(0.5, this.colorTwo)
     gradient.addColorStop(0.7, this.colorThree)
   	context.fillStyle = gradient

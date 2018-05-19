@@ -1,10 +1,12 @@
 // bower:scss
 // endbower
 
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:700');
+
 body {
   position: relative;
   background: #fafafa;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   color: #333;
   margin: 0;
   overflow: hidden;
@@ -24,12 +26,36 @@ body {
     z-index: 9999;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    pointer-events: none;
 
     .logo {
       margin-top: 20px;
       width: 90px;
       height: 90px;
       pointer-events: none;
+    }
+
+    .title {
+      font-size: 90px;
+      @media only screen and (max-width: 640px) {
+        font-size: 60px;
+        line-height: 55px;
+        margin-top: 20px;
+      }
+      font-family: 'Ubuntu', sans-serif;
+      background: -webkit-linear-gradient(42deg, #360083, #ff0073, #ffd600);
+      mix-blend-mode: overlay;
+      background-size: contain;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.5;
+      line-height: 85px;
+      margin-top: 40px;
+      pointer-events: none;
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
     }
   }
 
@@ -45,7 +71,7 @@ body {
     pointer-events: none;
     transform-origin: bottom;
     z-index: 100;
-    mix-blend-mode: lighten;
+    // mix-blend-mode: overlay;
 
     .close-button-hitarea {
       position: absolute;
