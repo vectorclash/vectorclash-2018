@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import tinycolor from 'tinycolor2'
 
 export default class BackgroundGradientPlane {

@@ -1,7 +1,7 @@
 // bower:scss
 // endbower
 
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:700');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:700|Ubuntu:400,700');
 
 body {
   position: relative;
@@ -43,6 +43,7 @@ body {
         margin-top: 20px;
       }
       font-family: 'Ubuntu', sans-serif;
+      font-weight: 700;
       background: -webkit-linear-gradient(42deg, #360083, #ff0073, #ffd600);
       mix-blend-mode: overlay;
       background-size: contain;
@@ -83,6 +84,31 @@ body {
       background-color: transparent;
       cursor: pointer;
       pointer-events: auto;
+    }
+  }
+
+  .css3d-renderer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 60;
+    pointer-events: none;
+
+    .project-title {
+      font-family: 'Ubuntu', sans-serif;
+      font-weight: 700;
+      font-size: 80px;
+      line-height: 75px;
+      opacity: 0.8;
+      color: #959595;
+      width: 350px;
+    }
+
+    .project-body {
+      font-family: 'Ubuntu', sans-serif;
+      font-size: 10px;
+      width : 350px;
+      color: white;
     }
   }
 

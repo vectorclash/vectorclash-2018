@@ -1,5 +1,3 @@
-import * as THREE from 'three'
-import TweenMax from 'gsap'
 import tinycolor from 'tinycolor2'
 
 export default class ProjectShape {
@@ -123,9 +121,9 @@ export default class ProjectShape {
     this.status = 'inactive'
 
     TweenMax.to(this.shape.scale, 1, {
-      x : 0.01,
-      y : 0.01,
-      z : 0.01,
+      x : 0.0001,
+      y : 0.0001,
+      z : 0.0001,
       ease : Expo.easeOut
     })
 

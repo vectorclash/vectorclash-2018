@@ -1,36 +1,39 @@
 // external imports
-import * as THREE from 'three'
 import TweenMax from 'gsap'
 import tinycolor from 'tinycolor2'
 
 // custom component imports
 import Renderer from './components/Renderer'
 import ProjectShape from './components/ProjectShape'
+import ProjectDetails from './components/ProjectDetails'
 import BackgroundGradientPlane from './components/BackgroundGradientPlane'
 import BackgroundSpacePlane from './components/BackgroundSpacePlane'
 import ParticleField from './components/ParticleField'
 import WireframeShapeSwirl from './components/WireframeShapeSwirl'
 
 let mainContainer
-let renderer
-let scene, camera
+let renderer, cssRenderer
+let scene, cssScene, camera
 let needUpdate = []
-let raycaster
-let mouse
 let interactiveObjects = []
 let projects = []
+let projectData = []
+let activeProjectDetail
+let raycaster
+let mouse
 let projectIsActive = false
 let closeButton, closeButtonHit
-let background, space, particles, shapeSwirl
-let data
+let background, space, particles, shapeSwirl, projectContainer, projectCSSContainer
 
 function init() {
   mainContainer = document.querySelector('.main-container')
 
   renderer = new Renderer(0xff006b)
   mainContainer.appendChild(renderer.rendererElement)
+  mainContainer.appendChild(renderer.cssRendererElement)
 
   scene = renderer.scene
+  cssScene = renderer.cssScene
   camera = renderer.camera
 
   raycaster = new THREE.Raycaster()
@@ -46,10 +49,16 @@ function init() {
     ease : Elastic.easeOut
   })
 
+  projectContainer = new THREE.Object3D()
+  scene.add(projectContainer)
+
+  projectCSSContainer = new THREE.Object3D()
+  cssScene.add(projectCSSContainer)
+
   $.get({
     url : 'http://www.vectorclash.com/data/projects?_format=json',
     success : (data) => {
-      data = data
+      projectData = data
       for (let i = 0; i < data.length; i++) {
         let newShape = new ProjectShape(i)
         projects.push(newShape)
@@ -111,6 +120,24 @@ function onMouseMove(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1
   mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
 
+  testRollOver()
+}
+
+function onClick(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+  testInteractiveObjects()
+}
+
+function onTouchStart(event) {
+  event.preventDefault()
+  mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
+  testRollOver(event)
+  TweenMax.delayedCall(0.5, testInteractiveObjects)
+}
+
+function testRollOver() {
   raycaster.setFromCamera(mouse, camera)
 
   let intersects = raycaster.intersectObjects(interactiveObjects)
@@ -131,19 +158,6 @@ function onMouseMove(event) {
   }
 }
 
-function onClick(event) {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
-  testInteractiveObjects()
-}
-
-function onTouchStart(event) {
-  event.preventDefault()
-  mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
-  testInteractiveObjects()
-}
-
 function testInteractiveObjects() {
   if(!projectIsActive) {
     raycaster.setFromCamera(mouse, camera)
@@ -153,6 +167,7 @@ function testInteractiveObjects() {
       for(let i = 0; i < interactiveObjects.length; i++) {
         if(interactiveObjects[i] == intersects[0].object) {
           projects[i].openProject()
+          openProjectDetail(i)
         } else {
           projects[i].disableProject()
         }
@@ -161,6 +176,13 @@ function testInteractiveObjects() {
       disableSpaceBackground()
     }
   }
+}
+
+function openProjectDetail(pID) {
+  let newProjectDetail = new ProjectDetails(projectData[pID])
+  activeProjectDetail = newProjectDetail
+  projectContainer.add(newProjectDetail.container)
+  projectCSSContainer.add(newProjectDetail.cssContainer)
 }
 
 function disableSpaceBackground() {
@@ -179,7 +201,7 @@ function disableSpaceBackground() {
       closeButton.style.display = 'block'
     },
     onComplete : () => {
-      closeButtonHit.addEventListener('click', closeProject)
+      closeButtonHit.addEventListener('click', closeProjects)
     }
   })
 
@@ -247,11 +269,45 @@ function enableSpaceBackground() {
   projectIsActive = false
 }
 
-function closeProject() {
+function closeProjects() {
   for(let i = 0; i < projects.length; i++) {
     projects[i].closeProject()
     enableSpaceBackground()
   }
+
+  let projectTitleElements = document.querySelectorAll('.project-title')
+  let projectBodyElements = document.querySelectorAll('.project-body')
+
+  TweenMax.to(projectTitleElements, 0.5, {
+    scaleX : 0,
+    scaleY : 0,
+    alpha : 0,
+    ease : Quad.easeOut,
+    onComplete : () => {
+      for (var i = 0; i < projectTitleElements.length; i++) {
+        let title = projectTitleElements[i]
+        title.parentNode.removeChild(title)
+      }
+    }
+  })
+
+  TweenMax.to(projectBodyElements, 1, {
+    scaleX : 0,
+    scaleY : 0,
+    alpha : 0,
+    ease : Quad.easeOut,
+    onComplete : () => {
+      for (var i = 0; i < projectBodyElements.length; i++) {
+        let body = projectBodyElements[i]
+        body.parentNode.removeChild(body)
+      }
+    }
+  })
+
+  activeProjectDetail.animateOut()
+  TweenMax.delayedCall(1, () => {
+    projectContainer.remove(activeProjectDetail.container)
+  })
 }
 
 function loop() {

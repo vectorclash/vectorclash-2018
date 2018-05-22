@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import OrbitControls from 'orbit-controls-es6'
 
 export default class Renderer {
@@ -11,6 +10,10 @@ export default class Renderer {
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     this.renderer.precision = 'highp'
+
+    this.cssRenderer = new THREE.CSS3DRenderer()
+    this.cssRenderer.setSize(window.innerWidth, window.innerHeight)
+    this.cssRenderer.domElement.classList.add('css3d-renderer')
 
     // set default camera position for later retrieval
     this.cameraDefaultPosition = { x : 0, y : 2, z : 130 }
@@ -32,6 +35,7 @@ export default class Renderer {
       far : 1,
       ease : Expo.easeOut
     })
+    this.cssScene = new THREE.Scene()
 
     // create some lights
     this.ambientLight = new THREE.AmbientLight(0xfafafa, 0.2)
@@ -63,7 +67,8 @@ export default class Renderer {
 
     // create an orbit controller
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.minDistance = 200
+    this.controls.object.position.z = 700
+    this.controls.minDistance = 50
     this.controls.maxDistance = 500
     this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
     this.controls.maxPolarAngle = Math.PI - (Math.PI / 5)
@@ -71,6 +76,7 @@ export default class Renderer {
     this.controls.maxAzimuthAngle = Math.PI / 3
     this.controls.enabled = true
     this.controls.enableDamping = true
+    this.controls.dampingFactor = 0.2
     this.controls.update()
 
     // reset the projection matrix on resize
@@ -88,15 +94,21 @@ export default class Renderer {
   render() {
     this.controls.update()
     this.renderer.render(this.scene, this.camera)
+    this.cssRenderer.render(this.cssScene, this.camera)
   }
 
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.cssRenderer.setSize(window.innerWidth, window.innerHeight)
   }
 
   get rendererElement() {
     return this.renderer.domElement
+  }
+
+  get cssRendererElement() {
+    return this.cssRenderer.domElement
   }
 }

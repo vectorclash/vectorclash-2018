@@ -1,5 +1,3 @@
-import * as THREE from 'three'
-
 export default class ParticleField {
   constructor(particleNum, texture) {
     this.particleCount = particleNum
@@ -10,7 +8,7 @@ export default class ParticleField {
       map : texture,
       blending : THREE.NormalBlending,
       transparent : true,
-      opacity : 0.7,
+      opacity : 0.4,
       depthWrite : false
     })
 

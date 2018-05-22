@@ -1,5 +1,3 @@
-import * as THREE from 'three'
-
 export default class BackgroundSpacePlane {
   constructor(texture) {
     let geometry = new THREE.PlaneGeometry(1500, 1500)
