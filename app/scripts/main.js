@@ -134,7 +134,7 @@ function onTouchStart(event) {
   mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
   mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
   testRollOver(event)
-  TweenMax.delayedCall(0.5, testInteractiveObjects)
+  TweenMax.delayedCall(0.2, testInteractiveObjects)
 }
 
 function testRollOver() {

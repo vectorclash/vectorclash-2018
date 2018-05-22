@@ -15,41 +15,38 @@ export default class ProjectDetails {
     titleDiv.classList.add('project-title')
     titleDiv.innerHTML = this.title
 
-    this.title3D = new THREE.CSS3DObject(titleDiv)
-    this.title3D.position.set(
-      -150,
-      100,
-      -100
-    )
-    this.title3D.rotation.set(
-      0,
-      Math.PI * 0.1,
-      0
-    )
-    this.title3D.scale.set(
-      0,
-      0,
-      0
-    )
-    this.cssContainer.add(this.title3D)
-
     let bodyDiv = document.createElement('div')
     bodyDiv.classList.add('project-body')
     bodyDiv.innerHTML = this.body
 
-    this.body3D = new THREE.CSS3DObject(bodyDiv)
-    this.cssContainer.add(this.body3D)
-    this.body3D.position.set(
-      -100,
+    let textDiv = document.createElement('div')
+    textDiv.classList.add('project-text')
+    textDiv.appendChild(titleDiv)
+    textDiv.appendChild(bodyDiv)
+
+    let textX = 0
+    let textRotationY = 0
+
+    if(window.innerWidth > 640) {
+      textX = -170
+      textRotationY = Math.PI * 0.1
+    } else {
+
+    }
+
+    this.text3D = new THREE.CSS3DObject(textDiv)
+    this.cssContainer.add(this.text3D)
+    this.text3D.position.set(
+      textX,
       -20,
       0
     )
-    this.body3D.rotation.set(
+    this.text3D.rotation.set(
       0,
-      Math.PI * 0.1,
+      textRotationY,
       0
     )
-    this.body3D.scale.set(
+    this.text3D.scale.set(
       0,
       0,
       0
@@ -98,8 +95,20 @@ export default class ProjectDetails {
       this.container.add(newImagePlane.mesh)
     }
 
+    let imageContainerX = 0
+    let imageContainerRotationY = 0
+
+    if(window.innerWidth > 640) {
+      imageContainerX = 30
+      imageContainerRotationY = Math.PI * -0.1
+    } else {
+      imageContainerX = -50
+      imageContainerRotationY = 0
+    }
+
+    this.container.position.x = imageContainerX
     this.container.position.y -= imageY / 2
-    this.container.rotation.y = Math.PI * -0.1
+    this.container.rotation.y = imageContainerRotationY
 
     TweenMax.delayedCall(0.3, this.animateIn.bind(this))
 
@@ -148,19 +157,7 @@ export default class ProjectDetails {
       })
     }
 
-    TweenMax.to(this.title3D.scale, 0.5, {
-      x : 1,
-      y : 1,
-      z : 1,
-      ease : Back.easeOut
-    })
-
-    TweenMax.from(this.title3D.position, 0.5, {
-      y : 200,
-      ease : Back.easeOut
-    })
-
-    TweenMax.to(this.body3D.scale, 0.5, {
+    TweenMax.to(this.text3D.scale, 0.5, {
       x : 1,
       y : 1,
       z : 1,
@@ -168,7 +165,7 @@ export default class ProjectDetails {
       delay : 0.3
     })
 
-    TweenMax.from(this.body3D.position, 0.5, {
+    TweenMax.from(this.text3D.position, 0.5, {
       y : -200,
       ease : Back.easeOut,
       delay : 0.3
@@ -201,13 +198,7 @@ export default class ProjectDetails {
       })
     }
 
-    TweenMax.to(this.title3D.scale, 0.3, {
-      x : 0.00001,
-      y : 0.00001,
-      z : 0.00001
-    })
-
-    TweenMax.to(this.body3D.scale, 0.3, {
+    TweenMax.to(this.text3D.scale, 0.3, {
       x : 0.00001,
       y : 0.00001,
       z : 0.00001

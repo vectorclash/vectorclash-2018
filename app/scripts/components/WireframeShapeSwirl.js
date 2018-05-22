@@ -14,12 +14,12 @@ export default class WireframeShapeSwirl {
         wireframe : true,
         fog : false,
         transparent : true,
-        opacity : 0.3,
+        opacity : 0.1,
         color : tinycolor({h : i / shapeNum * 255, s : 100, l : 50}).toHexString()
       })
 
       let mesh = new THREE.Mesh(this.geometry, this.material)
-      let newScale = 300 + (i * 20)
+      let newScale = 20 + (i * 20)
       mesh.scale.set(newScale, newScale, newScale)
       let newRotation = i * 0.08
       mesh.rotation.set(newRotation, newRotation, newRotation)

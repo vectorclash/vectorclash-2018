@@ -4,9 +4,9 @@ export default class ProjectShape {
   constructor(id) {
     this.id = id
     this.clock = new THREE.Clock
-    this.radius = id * 30
+    this.radius = id * 50
     this.angle = Math.random() * 10
-    this.scale = 0.5 + Math.random() * 1.3
+    this.scale = 0.7 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
     this.deformationRange = 0.1
 
@@ -14,7 +14,7 @@ export default class ProjectShape {
 
     this.container = new THREE.Object3D()
 
-    this.geometry = new THREE.IcosahedronGeometry(10, 1)
+    this.geometry = new THREE.IcosahedronGeometry(15, 1)
     this.material = new THREE.MeshStandardMaterial(
       {
         color : this.ranColor.toHexString(),
@@ -78,9 +78,9 @@ export default class ProjectShape {
     this.status = 'active'
 
     TweenMax.to(this.shape.scale, 2, {
-      x : 100,
-      y : 100,
-      z : 100,
+      x : 120,
+      y : 120,
+      z : 120,
       ease : Expo.easeOut,
       delay : 0.2
     })

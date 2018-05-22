@@ -94,21 +94,33 @@ body {
     z-index: 60;
     pointer-events: none;
 
-    .project-title {
-      font-family: 'Ubuntu', sans-serif;
-      font-weight: 700;
-      font-size: 80px;
-      line-height: 75px;
-      opacity: 0.8;
-      color: #959595;
-      width: 350px;
-    }
+    .project-text {
+      width: 400px;
+      overflow-x: visible;
 
-    .project-body {
-      font-family: 'Ubuntu', sans-serif;
-      font-size: 10px;
-      width : 350px;
-      color: white;
+      .project-title {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 60px;
+        opacity: 0.8;
+        background: -webkit-linear-gradient(42deg, #5100c6, #ff0073, #ffd600);
+        mix-blend-mode: overlay;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width: 450px;
+        padding-bottom: 20px;
+        margin-left: -5px;
+      }
+
+      .project-body {
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 10px;
+        line-height: 17px;
+        letter-spacing: 0.3px;
+        width : 400px;
+        color: white;
+      }
     }
   }
 

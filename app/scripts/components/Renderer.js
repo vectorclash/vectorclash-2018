@@ -69,15 +69,15 @@ export default class Renderer {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.object.position.z = 700
     this.controls.minDistance = 50
-    this.controls.maxDistance = 500
+    this.controls.maxDistance = 800
     this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
     this.controls.maxPolarAngle = Math.PI - (Math.PI / 5)
     this.controls.minAzimuthAngle = - Math.PI / 3
     this.controls.maxAzimuthAngle = Math.PI / 3
-    this.controls.enabled = true
-    this.controls.enableDamping = true
-    this.controls.dampingFactor = 0.2
+    this.controls.enablePan = false
     this.controls.update()
+
+    window.addEventListener('keyup', this.onKeyUp.bind(this))
 
     // reset the projection matrix on resize
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
@@ -91,10 +91,37 @@ export default class Renderer {
     })
   }
 
+  moveCamera(time, rotationVec, positionVec) {
+    this.controls.enabled = false
+
+    TweenMax.to(this.controls.object.position, time, {
+      x : positionVec.x,
+      y : positionVec.y,
+      z : positionVec.z,
+      ease : Back.easeOut,
+      onComplete : () => {
+        this.controls.enabled = true
+      }
+    })
+
+    TweenMax.to(this.controls.object.rotation, time, {
+      x : rotationVec.x,
+      y : rotationVec.y,
+      z : rotationVec.z,
+      ease : Back.easeOut
+    })
+  }
+
   render() {
     this.controls.update()
     this.renderer.render(this.scene, this.camera)
     this.cssRenderer.render(this.cssScene, this.camera)
+  }
+
+  onKeyUp(event) {
+    if(event.code == 'Space') {
+      console.log(this.controls.object.position, this.controls.object.rotation)
+    }
   }
 
   onWindowResize() {
