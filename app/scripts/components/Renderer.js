@@ -1,4 +1,5 @@
 import OrbitControls from 'orbit-controls-es6'
+import tinycolor from 'tinycolor2'
 
 export default class Renderer {
   constructor(color) {
@@ -30,11 +31,12 @@ export default class Renderer {
 
     // create the scene
     this.scene = new THREE.Scene()
-    this.scene.fog = new THREE.Fog(color, 1, 2000)
+    this.scene.fog = new THREE.Fog(color, 1, 3000)
     TweenMax.from(this.scene.fog, 3, {
       far : 1,
       ease : Expo.easeOut
     })
+
     this.cssScene = new THREE.Scene()
 
     // create some lights
@@ -69,7 +71,7 @@ export default class Renderer {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.object.position.z = 700
     this.controls.minDistance = 50
-    this.controls.maxDistance = 800
+    this.controls.maxDistance = 900
     this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
     this.controls.maxPolarAngle = Math.PI - (Math.PI / 5)
     this.controls.minAzimuthAngle = - Math.PI / 3
@@ -88,6 +90,19 @@ export default class Renderer {
       near : near,
       far : far,
       ease : Expo.easeOut
+    })
+  }
+
+  changeFogColor(time, color) {
+    let rgbColor = tinycolor(color).toRgb()
+
+    TweenMax.to(this.scene.fog.color, time, {
+      r : rgbColor.r,
+      g : rgbColor.g,
+      b : rgbColor.b,
+      ease : Quad.easeInOut,
+      yoyo : true,
+      repeat : -1
     })
   }
 

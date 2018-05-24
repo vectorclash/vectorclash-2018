@@ -230,7 +230,7 @@ function disableSpaceBackground() {
 }
 
 function enableSpaceBackground() {
-  renderer.adjustFog(2, 1, 2000)
+  renderer.adjustFog(2, 1, 3000)
 
   TweenMax.to(closeButton, 1, {
     alpha : 0,

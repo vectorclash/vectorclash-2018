@@ -1,5 +1,6 @@
 import tinycolor from 'tinycolor2'
 import ImagePlane from './ImagePlane'
+import VideoShape from './VideoShape'
 
 export default class ProjectDetails {
   constructor(data) {
@@ -8,7 +9,8 @@ export default class ProjectDetails {
     this.images = data.field_image
     this.videos = data.field_video
 
-    // build css 3d objects
+    // build css 3d objects, title and body
+
     this.cssContainer = new THREE.Object3D()
 
     let titleDiv = document.createElement('div')
@@ -27,7 +29,7 @@ export default class ProjectDetails {
     let textX = 0
     let textRotationY = 0
 
-    if(window.innerWidth > 640) {
+    if(window.innerWidth > 700) {
       textX = -170
       textRotationY = Math.PI * 0.1
     } else {
@@ -87,7 +89,7 @@ export default class ProjectDetails {
       )
 
       imageX += this.imageSize + this.imagePadding
-      if(imageX > this.imageSize * this.rowWidth) {
+      if(imageX > this.imageSize * this.rowWidth && i != this.images.length - 1) {
         imageX = 0
         imageY -= this.imageSize + this.imagePadding
       }
@@ -98,12 +100,39 @@ export default class ProjectDetails {
     let imageContainerX = 0
     let imageContainerRotationY = 0
 
-    if(window.innerWidth > 640) {
+    if(window.innerWidth > 700) {
       imageContainerX = 30
       imageContainerRotationY = Math.PI * -0.1
     } else {
       imageContainerX = -50
       imageContainerRotationY = 0
+    }
+
+    // build video shape object
+
+    if(this.videos.length > 0) {
+      let ranVideo = Math.floor(Math.random() * this.videos.length)
+
+      let videoX = 0
+      if(window.innerWidth > 700) {
+        videoX = -700
+      }
+
+      this.videoShape = new VideoShape(this.videos[ranVideo].url, 700)
+      this.videoShape.position.set(
+        videoX,
+        -50,
+        -740
+      )
+
+      TweenMax.to(this.videoShape.position, 20, {
+        y : -200,
+        yoyo : true,
+        repeat : -1,
+        ease : Quad.easeInOut
+      })
+
+      this.container.add(this.videoShape)
     }
 
     this.container.position.x = imageContainerX
