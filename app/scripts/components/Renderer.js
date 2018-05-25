@@ -69,9 +69,9 @@ export default class Renderer {
 
     // create an orbit controller
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.object.position.z = 700
+    // this.controls.object.position.z = 400
     this.controls.minDistance = 50
-    this.controls.maxDistance = 900
+    this.controls.maxDistance = 1200
     this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
     this.controls.maxPolarAngle = Math.PI - (Math.PI / 5)
     this.controls.minAzimuthAngle = - Math.PI / 3
@@ -106,24 +106,17 @@ export default class Renderer {
     })
   }
 
-  moveCamera(time, rotationVec, positionVec) {
+  moveCamera(time, x, y, z) {
     this.controls.enabled = false
 
     TweenMax.to(this.controls.object.position, time, {
-      x : positionVec.x,
-      y : positionVec.y,
-      z : positionVec.z,
-      ease : Back.easeOut,
+      x : x,
+      y : y,
+      z : z,
+      ease : Expo.easeOut,
       onComplete : () => {
         this.controls.enabled = true
       }
-    })
-
-    TweenMax.to(this.controls.object.rotation, time, {
-      x : rotationVec.x,
-      y : rotationVec.y,
-      z : rotationVec.z,
-      ease : Back.easeOut
     })
   }
 

@@ -153,7 +153,7 @@ export default class ProjectShape {
       })
 
       TweenMax.to(this.rollShape.material, 0.5, {
-        opacity : 1,
+        opacity : 0.7,
         ease : Back.easeOut
       })
     }

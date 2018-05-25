@@ -4,8 +4,8 @@ import tinycolor from 'tinycolor2'
 
 // custom component imports
 import Renderer from './components/Renderer'
-import ProjectShape from './components/ProjectShape'
-import ProjectDetails from './components/ProjectDetails'
+import ProjectShape from './components/projects/ProjectShape'
+import ProjectDetails from './components/projects/ProjectDetails'
 import BackgroundGradientPlane from './components/BackgroundGradientPlane'
 import BackgroundSpacePlane from './components/BackgroundSpacePlane'
 import ParticleField from './components/ParticleField'
@@ -24,6 +24,18 @@ let mouse
 let projectIsActive = false
 let closeButton, closeButtonHit
 let background, space, particles, shapeSwirl, projectContainer, projectCSSContainer
+let spaceTexture
+
+function preloadSpace() {
+  let spaceLoader = new THREE.TextureLoader()
+  spaceLoader.load(
+    'images/textures/space-4096.png',
+    (texture) => {
+      spaceTexture = texture
+      init()
+    }
+  )
+}
 
 function init() {
   mainContainer = document.querySelector('.main-container')
@@ -74,21 +86,15 @@ function init() {
         ease : Expo.easeOut
       })
 
+      space = new BackgroundSpacePlane(spaceTexture)
+      space.mesh.position.z = -350
+      scene.add(space.mesh)
+      needUpdate.push(space)
+
       background = new BackgroundGradientPlane()
       background.mesh.position.z = -360
       scene.add(background.mesh)
       needUpdate.push(background)
-
-      let spaceLoader = new THREE.TextureLoader()
-      spaceLoader.load(
-        'images/textures/space-4096.png',
-        (texture) => {
-          space = new BackgroundSpacePlane(texture)
-          space.mesh.position.z = -350
-          scene.add(space.mesh)
-          needUpdate.push(space)
-        }
-      )
 
       let starLoader = new THREE.TextureLoader()
       starLoader.load(
@@ -99,6 +105,8 @@ function init() {
           needUpdate.push(particles)
         }
       )
+
+      renderer.moveCamera(1, -300, -300, 300)
     }
   })
 
@@ -183,6 +191,8 @@ function openProjectDetail(pID) {
   activeProjectDetail = newProjectDetail
   projectContainer.add(newProjectDetail.container)
   projectCSSContainer.add(newProjectDetail.cssContainer)
+
+  renderer.moveCamera(1, 0, 0, 800)
 }
 
 function disableSpaceBackground() {
@@ -206,7 +216,7 @@ function disableSpaceBackground() {
   })
 
   TweenMax.to(background.mesh.position, 1, {
-    z : -2000,
+    z : -3000,
     ease : Quad.easeOut
   })
 
@@ -231,6 +241,11 @@ function disableSpaceBackground() {
 
 function enableSpaceBackground() {
   renderer.adjustFog(2, 1, 3000)
+
+  const ranX = -300 + Math.random() * 600
+  const ranY = -300 + Math.random() * 600
+
+  renderer.moveCamera(1, ranX, ranY, 300)
 
   TweenMax.to(closeButton, 1, {
     alpha : 0,
@@ -318,4 +333,4 @@ function loop() {
   }
 }
 
-window.addEventListener('load', init)
+window.addEventListener('load', preloadSpace)
