@@ -6,6 +6,7 @@ export default class VideoShape {
     videoElement.src = url
     videoElement.setAttribute('autoplay', '')
     videoElement.setAttribute('loop', '')
+    videoElement.setAttribute('muted', '')
     videoElement.setAttribute('crossorigin', 'anonymous')
 
     let videoTexture = new THREE.VideoTexture(videoElement)
@@ -16,7 +17,8 @@ export default class VideoShape {
     let material = new THREE.MeshBasicMaterial({
       map : videoTexture,
       transparent : true,
-      opacity : 0
+      opacity : 0,
+      color : 0xFFFFFF
     })
 
     this.mesh = new THREE.Mesh(geometry, material)

@@ -10,6 +10,7 @@ import BackgroundGradientPlane from './components/BackgroundGradientPlane'
 import BackgroundSpacePlane from './components/BackgroundSpacePlane'
 import ParticleField from './components/ParticleField'
 import WireframeShapeSwirl from './components/WireframeShapeSwirl'
+import AboutContent from './components/html/AboutContent'
 
 let mainContainer
 let renderer, cssRenderer
@@ -25,6 +26,7 @@ let projectIsActive = false
 let closeButton, closeButtonHit
 let background, space, particles, shapeSwirl, projectContainer, projectCSSContainer
 let spaceTexture
+let aboutContent
 
 function preloadSpace() {
   let spaceLoader = new THREE.TextureLoader()
@@ -39,6 +41,10 @@ function preloadSpace() {
 
 function init() {
   mainContainer = document.querySelector('.main-container')
+
+  let aboutContent = new AboutContent()
+  aboutContent.content.addEventListener('enable3DInteraction', enableInteraction)
+  aboutContent.content.addEventListener('disable3DInteraction', disableInteraction)
 
   renderer = new Renderer(0xff006b)
   mainContainer.appendChild(renderer.rendererElement)
@@ -117,11 +123,23 @@ function init() {
     scaleY : 0.6
   })
 
-  window.addEventListener('mousemove', onMouseMove)
-  window.addEventListener('click', onClick)
-  renderer.rendererElement.addEventListener('touchstart', onTouchStart)
+  enableInteraction()
 
   TweenMax.ticker.addEventListener('tick', loop)
+}
+
+function enableInteraction() {
+  if(!projectIsActive) {
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('click', onClick)
+    renderer.rendererElement.addEventListener('touchstart', onTouchStart)
+  }
+}
+
+function disableInteraction() {
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('click', onClick)
+  renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
 }
 
 function onMouseMove(event) {
@@ -175,6 +193,7 @@ function testInteractiveObjects() {
       for(let i = 0; i < interactiveObjects.length; i++) {
         if(interactiveObjects[i] == intersects[0].object) {
           projects[i].openProject()
+          projects[i].rolloutProject()
           openProjectDetail(i)
         } else {
           projects[i].disableProject()
@@ -198,10 +217,9 @@ function openProjectDetail(pID) {
 function disableSpaceBackground() {
   mainContainer.style.cursor = 'auto'
 
-  window.removeEventListener('click', onClick)
-  renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
+  disableInteraction()
 
-  renderer.adjustFog(2, 1, 4000)
+  renderer.adjustFog(2, 1, 5000)
 
   TweenMax.from(closeButton, 1, {
     y : 360,
@@ -220,7 +238,7 @@ function disableSpaceBackground() {
     ease : Quad.easeOut
   })
 
-  TweenMax.to(space.mesh.position, 1.2, {
+  TweenMax.to(space.mesh.position, 1, {
     z : -2000,
     ease : Quad.easeOut
   })
@@ -253,8 +271,7 @@ function enableSpaceBackground() {
     onComplete : () => {
       closeButton.style.display = 'none'
       closeButton.style.opacity = 1
-      window.addEventListener('click', onClick)
-      renderer.rendererElement.addEventListener('touchstart', onTouchStart)
+      enableInteraction()
     }
   })
 

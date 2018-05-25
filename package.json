@@ -52,7 +52,7 @@
     }
   },
   "dependencies": {
-    "gsap": "^1.20.4",
+    "gsap": "^2.0.0",
     "orbit-controls-es6": "^1.0.10",
     "three": "^0.92.0",
     "three-effectcomposer-es6": "0.0.4",
