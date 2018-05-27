@@ -71,7 +71,7 @@ export default class AboutContent {
   activateAboutPage() {
     this.isActive = true
 
-    this.container.classList.add('enble-events')
+    this.container.classList.add('enable-events')
     this.container.classList.remove('disable-events')
 
     TweenMax.set(this.mainTitle, {
@@ -139,7 +139,7 @@ export default class AboutContent {
   }
 
   update() {
-    const bgStyle = 'url(images/nebula_stars.png), linear-gradient(42deg, ' + tinycolor(this.color1).toHexString() + ', ' + tinycolor(this.color2).toHexString() + ', ' + tinycolor(this.color3).toHexString() + ')'
+    const bgStyle = 'linear-gradient(42deg, ' + tinycolor(this.color1).toHexString() + ', ' + tinycolor(this.color2).toHexString() + ', ' + tinycolor(this.color3).toHexString() + ')'
     this.gradientBackground.style.backgroundImage = bgStyle
   }
 }

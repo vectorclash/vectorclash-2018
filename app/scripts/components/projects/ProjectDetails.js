@@ -118,7 +118,9 @@ export default class ProjectDetails {
         videoX = -700
       }
 
-      this.videoShape = new VideoShape(this.videos[ranVideo].url, 700)
+      let ranImage = Math.floor(Math.random() * this.images.length)
+
+      this.videoShape = new VideoShape(this.videos[ranVideo].url, 700, this.images[ranImage].url)
       this.videoShape.position.set(
         videoX,
         -50,
@@ -161,29 +163,45 @@ export default class ProjectDetails {
   animateIn() {
     for (var i = 0; i < this.container.children.length; i++) {
       let object = this.container.children[i]
-      TweenMax.from(object.scale, 0.5, {
-        y : 0.001,
-        ease : Back.easeOut,
-        delay : i * 0.05
-      })
+      if(object.type == 'Mesh') {
+        TweenMax.from(object.scale, 0.5, {
+          y : 0.001,
+          ease : Back.easeOut,
+          delay : i * 0.05
+        })
 
-      TweenMax.from(object.rotation, 0.5, {
-        x : -Math.PI,
-        ease : Back.easeOut,
-        delay : i * 0.05
-      })
+        TweenMax.from(object.rotation, 0.5, {
+          x : -Math.PI,
+          ease : Back.easeOut,
+          delay : i * 0.05
+        })
 
-      TweenMax.from(object.position, 0.5, {
-        z : -500,
-        ease : Back.easeOut,
-        delay : i * 0.05
-      })
+        TweenMax.from(object.position, 0.5, {
+          z : -500,
+          ease : Back.easeOut,
+          delay : i * 0.05
+        })
 
-      TweenMax.to(object.material, 0.5, {
-        opacity : 1,
-        ease : Quad.easeOut,
-        delay : i * 0.05
-      })
+        TweenMax.to(object.material, 0.5, {
+          opacity : 1,
+          ease : Quad.easeOut,
+          delay : i * 0.05
+        })
+      } else {
+        TweenMax.to(object.scale, 0.5, {
+          x : 1,
+          y : 1,
+          z : 1,
+          ease : Back.easeOut,
+          delay : i * 0.05
+        })
+
+        TweenMax.from(object.position, 1, {
+          y : -500,
+          ease : Back.easeOut,
+          delay : i * 0.05
+        })
+      }
     }
 
     TweenMax.to(this.text3D.scale, 0.5, {
