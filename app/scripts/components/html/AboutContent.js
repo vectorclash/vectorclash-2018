@@ -139,7 +139,9 @@ export default class AboutContent {
   }
 
   update() {
-    const bgStyle = 'linear-gradient(42deg, ' + tinycolor(this.color1).toHexString() + ', ' + tinycolor(this.color2).toHexString() + ', ' + tinycolor(this.color3).toHexString() + ')'
-    this.gradientBackground.style.backgroundImage = bgStyle
+    if(this.isActive) {
+      const bgStyle = 'linear-gradient(42deg, ' + tinycolor(this.color1).toHexString() + ', ' + tinycolor(this.color2).toHexString() + ')'
+      this.gradientBackground.style.backgroundImage = bgStyle
+    }
   }
 }
