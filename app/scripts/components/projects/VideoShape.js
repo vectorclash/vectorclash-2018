@@ -30,17 +30,17 @@ export default class VideoShape {
     videoTexture.format = THREE.RGBFormat
 
     let material = new THREE.MeshBasicMaterial({
-      map : videoTexture,
-      transparent : true,
-      opacity : 0,
-      color : 0xFFFFFF
+      map: videoTexture,
+      transparent: true,
+      opacity: 0,
+      color: 0xFFFFFF
     })
 
     let placeholderMaterial = new THREE.MeshStandardMaterial({
-      color : tinycolor.random().toHexString(),
-      flatShading : true,
-      transparent : true,
-      opacity : 0.5
+      color: tinycolor.random().toHexString(),
+      flatShading: true,
+      transparent: true,
+      opacity: 0.5
     })
 
     this.placeholderMesh = new THREE.Mesh(geometry, placeholderMaterial)
@@ -64,21 +64,21 @@ export default class VideoShape {
     this.container.add(this.mesh)
 
     TweenMax.from(this.mesh.scale, 1, {
-      x : 0.0001,
-      y : 0.0001,
-      z : 0.0001,
-      ease : Back.easeOut
+      x: 0.0001,
+      y: 0.0001,
+      z: 0.0001,
+      ease: Back.easeOut
     })
 
     TweenMax.to(this.placeholderMesh.scale, 1, {
-      x : 0.0001,
-      y : 0.0001,
-      z : 0.0001,
-      ease : Back.easeIn
+      x: 0.0001,
+      y: 0.0001,
+      z: 0.0001,
+      ease: Back.easeIn
     })
 
     TweenMax.to(this.mesh.material, 1, {
-      opacity : 1
+      opacity: 1
     })
 
     this.videoElement.play()

@@ -3,10 +3,10 @@ export default class BackgroundSpacePlane {
     let geometry = new THREE.PlaneGeometry(1500, 1500)
     let material = new THREE.MeshBasicMaterial(
       {
-        transparent : true,
-        opacity : 1,
-        depthWrite : true,
-        map : texture
+        transparent: true,
+        opacity: 1,
+        depthWrite: true,
+        map: texture
       }
     )
 
@@ -14,8 +14,8 @@ export default class BackgroundSpacePlane {
 
     TweenMax.from(this.mesh.material, 2,
       {
-        opacity : 0,
-        ease : Quad.easeOut
+        opacity: 0,
+        ease: Quad.easeOut
       }
     )
   }

@@ -28,6 +28,7 @@ let background, space, particles, shapeSwirl, projectContainer, projectCSSContai
 let spaceTexture
 let aboutContent
 let isMobile = false
+let instructionsElement
 
 function preloadSpace() {
   let spaceLoader = new THREE.TextureLoader()
@@ -44,6 +45,8 @@ function init() {
   detectIfMobile()
 
   mainContainer = document.querySelector('.main-container')
+
+  instructionsElement = document.querySelector('.instructions')
 
   let aboutContent = new AboutContent()
   aboutContent.content.addEventListener('enable3DInteraction', enableInteraction)
@@ -64,9 +67,9 @@ function init() {
   scene.add(shapeSwirl.container)
   shapeSwirl.container.scale.set(0.03, 0.03, 0.03)
   TweenMax.from(shapeSwirl.container.scale, 1, {
-    x : 0.0001,
-    y : 0.0001,
-    z : 0.0001,
+    x: 0.0001,
+    y: 0.0001,
+    z: 0.0001,
     ease : Elastic.easeOut
   })
 
@@ -89,10 +92,10 @@ function init() {
       }
 
       TweenMax.to(shapeSwirl.container.scale, 1, {
-        x : 1,
-        y : 1,
-        z : 1,
-        ease : Expo.easeOut
+        x: 1,
+        y: 1,
+        z: 1,
+        ease: Expo.easeOut
       })
 
       space = new BackgroundSpacePlane(spaceTexture)
@@ -122,13 +125,25 @@ function init() {
   closeButton = document.querySelector('.close-button')
   closeButtonHit = document.querySelector('.close-button-hitarea')
   TweenMax.set(closeButton, {
-    scaleX : 0.6,
-    scaleY : 0.6
+    scaleX: 0.6,
+    scaleY: 0.6
   })
 
   enableInteraction()
 
   TweenMax.ticker.addEventListener('tick', loop)
+}
+
+function removeInstructions() {
+  TweenMax.to(instructionsElement, 1, {
+    y: 20,
+    alpha: 0,
+    ease: Quad.easeOut,
+    onComplete: () => {
+      instructionsElement.parentNode.removeChild(instructionsElement)
+      instructionsElement = null
+    }
+  })
 }
 
 function enableInteraction() {
@@ -143,27 +158,6 @@ function disableInteraction() {
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('click', onClick)
   renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
-}
-
-function onMouseMove(event) {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
-
-  testRollOver()
-}
-
-function onClick(event) {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
-  testInteractiveObjects()
-}
-
-function onTouchStart(event) {
-  event.preventDefault()
-  mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
-  testRollOver(event)
-  TweenMax.delayedCall(0.2, testInteractiveObjects)
 }
 
 function testRollOver() {
@@ -237,26 +231,26 @@ function disableSpaceBackground() {
   })
 
   TweenMax.to(background.mesh.position, 1, {
-    z : -3000,
+    z: -3000,
     ease : Quad.easeOut
   })
 
   TweenMax.to(space.mesh.position, 1, {
-    z : -2000,
+    z: -2000,
     ease : Quad.easeOut
   })
 
   TweenMax.to(shapeSwirl.container.scale, 2, {
-    x : 2,
-    y : 2,
-    z : 2,
+    x: 2,
+    y: 2,
+    z: 2,
     ease : Expo.easeOut
   })
 
   TweenMax.to('.title', 0.5, {
-    alpha : 0,
-    y : 20,
-    ease : Quad.easeOut
+    alpha: 0,
+    y: 20,
+    ease: Quad.easeOut
   })
 }
 
@@ -269,8 +263,8 @@ function enableSpaceBackground() {
   renderer.moveCamera(1, ranX, ranY, 300)
 
   TweenMax.to(closeButton, 1, {
-    alpha : 0,
-    ease : Expo.easeOut,
+    alpha: 0,
+    ease: Expo.easeOut,
     onComplete : () => {
       closeButton.style.display = 'none'
       closeButton.style.opacity = 1
@@ -279,26 +273,26 @@ function enableSpaceBackground() {
   })
 
   TweenMax.to(background.mesh.position, 1, {
-    z : -360,
-    ease : Expo.easeOut
+    z: -360,
+    ease: Expo.easeOut
   })
 
   TweenMax.to(space.mesh.position, 1, {
-    z : -350,
-    ease : Expo.easeOut
+    z: -350,
+    ease: Expo.easeOut
   })
 
   TweenMax.to(shapeSwirl.container.scale, 2, {
-    x : 1,
-    y : 1,
-    z : 1,
-    ease : Elastic.easeOut
+    x: 1,
+    y: 1,
+    z: 1,
+    ease: Elastic.easeOut
   })
 
   TweenMax.to('.title', 1, {
-    alpha : 0.5,
-    y : 0,
-    ease : Quad.easeOut
+    alpha: 0.5,
+    y: 0,
+    ease: Quad.easeOut
   })
 
   projectIsActive = false
@@ -314,10 +308,10 @@ function closeProjects() {
   let projectBodyElements = document.querySelectorAll('.project-body')
 
   TweenMax.to(projectTitleElements, 0.5, {
-    scaleX : 0,
-    scaleY : 0,
-    alpha : 0,
-    ease : Quad.easeOut,
+    scaleX: 0,
+    scaleY: 0,
+    alpha: 0,
+    ease: Quad.easeOut,
     onComplete : () => {
       for (var i = 0; i < projectTitleElements.length; i++) {
         let title = projectTitleElements[i]
@@ -327,10 +321,10 @@ function closeProjects() {
   })
 
   TweenMax.to(projectBodyElements, 1, {
-    scaleX : 0,
-    scaleY : 0,
-    alpha : 0,
-    ease : Quad.easeOut,
+    scaleX: 0,
+    scaleY: 0,
+    alpha: 0,
+    ease: Quad.easeOut,
     onComplete : () => {
       for (var i = 0; i < projectBodyElements.length; i++) {
         let body = projectBodyElements[i]
@@ -353,6 +347,8 @@ function detectIfMobile() {
   }
 }
 
+// main loop
+
 function loop() {
   renderer.render()
 
@@ -360,5 +356,38 @@ function loop() {
     needUpdate[i].update()
   }
 }
+
+// event handlers
+
+function onMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+
+  testRollOver()
+}
+
+function onClick(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+  testInteractiveObjects()
+
+  if(instructionsElement) {
+    removeInstructions()
+  }
+}
+
+function onTouchStart(event) {
+  event.preventDefault()
+  mouse.x = (event.targetTouches[0].pageX / window.innerWidth) * 2 - 1
+  mouse.y = - (event.targetTouches[0].pageY / window.innerHeight) * 2 + 1
+  testRollOver(event)
+  TweenMax.delayedCall(0.2, testInteractiveObjects)
+
+  if(instructionsElement) {
+    removeInstructions()
+  }
+}
+
+// initiate
 
 window.addEventListener('load', preloadSpace)

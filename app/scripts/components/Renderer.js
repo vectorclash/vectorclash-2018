@@ -33,8 +33,8 @@ export default class Renderer {
     this.scene = new THREE.Scene()
     this.scene.fog = new THREE.Fog(color, 1, 3000)
     TweenMax.from(this.scene.fog, 3, {
-      far : 1,
-      ease : Expo.easeOut
+      far: 1,
+      ease: Expo.easeOut
     })
 
     this.cssScene = new THREE.Scene()
@@ -69,7 +69,6 @@ export default class Renderer {
 
     // create an orbit controller
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    // this.controls.object.position.z = 400
     this.controls.minDistance = 50
     this.controls.maxDistance = 1200
     this.controls.minPolarAngle = - Math.PI - (Math.PI / 3)
@@ -87,9 +86,9 @@ export default class Renderer {
 
   adjustFog(time, near, far) {
     TweenMax.to(this.scene.fog, time, {
-      near : near,
-      far : far,
-      ease : Expo.easeOut
+      near: near,
+      far: far,
+      ease: Expo.easeOut
     })
   }
 
@@ -97,12 +96,12 @@ export default class Renderer {
     let rgbColor = tinycolor(color).toRgb()
 
     TweenMax.to(this.scene.fog.color, time, {
-      r : rgbColor.r,
-      g : rgbColor.g,
-      b : rgbColor.b,
-      ease : Quad.easeInOut,
-      yoyo : true,
-      repeat : -1
+      r: rgbColor.r,
+      g: rgbColor.g,
+      b: rgbColor.b,
+      ease: Quad.easeInOut,
+      yoyo: true,
+      repeat: -1
     })
   }
 
@@ -110,11 +109,11 @@ export default class Renderer {
     this.controls.enabled = false
 
     TweenMax.to(this.controls.object.position, time, {
-      x : x,
-      y : y,
-      z : z,
-      ease : Expo.easeOut,
-      onComplete : () => {
+      x: x,
+      y: y,
+      z: z,
+      ease: Expo.easeOut,
+      onComplete: () => {
         this.controls.enabled = true
       }
     })

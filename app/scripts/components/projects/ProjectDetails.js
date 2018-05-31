@@ -55,17 +55,17 @@ export default class ProjectDetails {
     )
 
     TweenMax.to(this.cssContainer.position, 20, {
-      y : this.cssContainer.position.y + 10,
-      yoyo : true,
-      repeat : -1,
-      ease : Quad.easeInOut
+      y: this.cssContainer.position.y + 10,
+      yoyo: true,
+      repeat: -1,
+      ease: Quad.easeInOut
     })
 
     TweenMax.to(this.cssContainer.rotation, 15, {
-      y : Math.PI * 0.11,
-      yoyo : true,
-      repeat : -1,
-      ease : Quad.easeInOut
+      y: Math.PI * 0.11,
+      yoyo: true,
+      repeat: -1,
+      ease: Quad.easeInOut
     })
 
     // build standard 3d objects
@@ -128,10 +128,10 @@ export default class ProjectDetails {
       )
 
       TweenMax.to(this.videoShape.position, 20, {
-        y : -200,
-        yoyo : true,
-        repeat : -1,
-        ease : Quad.easeInOut
+        y: -200,
+        yoyo: true,
+        repeat: -1,
+        ease: Quad.easeInOut
       })
 
       this.container.add(this.videoShape)
@@ -144,17 +144,17 @@ export default class ProjectDetails {
     TweenMax.delayedCall(0.3, this.animateIn.bind(this))
 
     TweenMax.to(this.container.position, 18, {
-      y : this.container.position.y + 10,
-      yoyo : true,
-      repeat : -1,
-      ease : Quad.easeInOut
+      y: this.container.position.y + 10,
+      yoyo: true,
+      repeat: -1,
+      ease: Quad.easeInOut
     })
 
     TweenMax.to(this.container.rotation, 16, {
-      y : Math.PI * -0.11,
-      yoyo : true,
-      repeat : -1,
-      ease : Quad.easeInOut
+      y: Math.PI * -0.11,
+      yoyo: true,
+      repeat: -1,
+      ease: Quad.easeInOut
     })
 
     return this
@@ -165,57 +165,57 @@ export default class ProjectDetails {
       let object = this.container.children[i]
       if(object.type == 'Mesh') {
         TweenMax.from(object.scale, 0.5, {
-          y : 0.001,
-          ease : Back.easeOut,
-          delay : i * 0.05
+          y: 0.001,
+          ease: Back.easeOut,
+          delay: i * 0.05
         })
 
         TweenMax.from(object.rotation, 0.5, {
-          x : -Math.PI,
-          ease : Back.easeOut,
-          delay : i * 0.05
+          x: -Math.PI,
+          ease: Back.easeOut,
+          delay: i * 0.05
         })
 
         TweenMax.from(object.position, 0.5, {
-          z : -500,
-          ease : Back.easeOut,
-          delay : i * 0.05
+          z: -500,
+          ease: Back.easeOut,
+          delay: i * 0.05
         })
 
         TweenMax.to(object.material, 0.5, {
-          opacity : 1,
-          ease : Quad.easeOut,
-          delay : i * 0.05
+          opacity: 1,
+          ease: Quad.easeOut,
+          delay: i * 0.05
         })
       } else {
         TweenMax.to(object.scale, 0.5, {
-          x : 1,
-          y : 1,
-          z : 1,
-          ease : Back.easeOut,
-          delay : i * 0.05
+          x: 1,
+          y: 1,
+          z: 1,
+          ease: Back.easeOut,
+          delay: i * 0.05
         })
 
         TweenMax.from(object.position, 1, {
-          y : -500,
-          ease : Back.easeOut,
-          delay : i * 0.05
+          y: -500,
+          ease: Back.easeOut,
+          delay: i * 0.05
         })
       }
     }
 
     TweenMax.to(this.text3D.scale, 0.5, {
-      x : 1,
-      y : 1,
-      z : 1,
-      ease : Back.easeOut,
-      delay : 0.3
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: Back.easeOut,
+      delay: 0.3
     })
 
     TweenMax.from(this.text3D.position, 0.5, {
-      y : -200,
-      ease : Back.easeOut,
-      delay : 0.3
+      y: -200,
+      ease: Back.easeOut,
+      delay: 0.3
     })
   }
 
@@ -223,32 +223,32 @@ export default class ProjectDetails {
     for (var i = 0; i < this.container.children.length; i++) {
       let object = this.container.children[i]
       TweenMax.to(object.scale, 0.3, {
-        x : 0.001,
-        y : 0.001,
-        z : 0.001,
-        ease : Quad.easeOut,
-        delay : i * 0.01
+        x: 0.001,
+        y: 0.001,
+        z: 0.001,
+        ease: Quad.easeOut,
+        delay: i * 0.01
       })
 
       TweenMax.to(object.rotation, 0.3, {
-        x : -Math.PI,
-        ease : Quad.easeOut,
-        delay : i * 0.01
+        x: -Math.PI,
+        ease: Quad.easeOut,
+        delay: i * 0.01
       })
 
       TweenMax.to(object.position, 0.3, {
-        z : 0,
-        x : 0,
-        y : -100,
-        ease : Quad.easeOut,
-        delay : i * 0.01
+        z: 0,
+        x: 0,
+        y: -100,
+        ease: Quad.easeOut,
+        delay: i * 0.01
       })
     }
 
     TweenMax.to(this.text3D.scale, 0.3, {
-      x : 0.00001,
-      y : 0.00001,
-      z : 0.00001
+      x: 0.00001,
+      y: 0.00001,
+      z: 0.00001
     })
   }
 }

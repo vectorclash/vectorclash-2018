@@ -11,11 +11,11 @@ export default class WireframeShapeSwirl {
 
     for(let i = 0; i < shapeNum; i++) {
       this.material = new THREE.MeshBasicMaterial({
-        wireframe : true,
-        fog : false,
-        transparent : true,
-        opacity : 0.1,
-        color : tinycolor({h : i / shapeNum * 255, s : 100, l : 50}).toHexString()
+        wireframe: true,
+        fog: false,
+        transparent: true,
+        opacity: 0.1,
+        color: tinycolor({h : i / shapeNum * 255, s : 100, l : 50}).toHexString()
       })
 
       let mesh = new THREE.Mesh(this.geometry, this.material)
@@ -33,12 +33,12 @@ export default class WireframeShapeSwirl {
   changeRotation() {
     let ranTime = 10 + Math.random() * 50
     TweenMax.to(this, ranTime, {
-      rX : -10 + Math.random() * 20,
-      rY : -10 + Math.random() * 20,
-      rZ : -10 + Math.random() * 20,
-      ease : Power1.easeInOut,
-      onUpdate : this.update.bind(this),
-      onComplete : this.changeRotation.bind(this)
+      rX: -10 + Math.random() * 20,
+      rY: -10 + Math.random() * 20,
+      rZ: -10 + Math.random() * 20,
+      ease: Power1.easeInOut,
+      onUpdate: this.update.bind(this),
+      onComplete: this.changeRotation.bind(this)
     })
   }
 

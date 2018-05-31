@@ -4,10 +4,10 @@ export default class TextBlock {
   constructor(text, font, size, color) {
     let geometry = new THREE.TextGeometry(text,
       {
-        font : font,
-        size : size,
-    		height : 0.2,
-    		curveSegments : 12
+        font: font,
+        size: size,
+    		height: 0.2,
+    		curveSegments: 12
       }
     )
 
@@ -15,7 +15,7 @@ export default class TextBlock {
 
     let material = new THREE.MeshBasicMaterial(
       {
-        color : color
+        color: color
       }
     )
 

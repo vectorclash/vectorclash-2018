@@ -17,7 +17,6 @@ export default class AboutContent {
 
     this.color1 = tinycolor.random().toRgb()
     this.color2 = tinycolor.random().toRgb()
-    this.color3 = tinycolor.random().toRgb()
 
     this.changeColors()
 
@@ -46,24 +45,17 @@ export default class AboutContent {
 
   changeColors() {
     TweenMax.to(this.color1, 5, {
-      r : Math.random() * 255,
-      g : Math.random() * 255,
-      b : Math.random() * 255,
+      r: Math.random() * 255,
+      g: Math.random() * 255,
+      b: Math.random() * 255,
       ease : Quad.easeInOut,
       onComplete : this.changeColors.bind(this)
     })
 
     TweenMax.to(this.color2, 5, {
-      r : Math.random() * 255,
-      g : Math.random() * 255,
-      b : Math.random() * 255,
-      ease : Quad.easeInOut
-    })
-
-    TweenMax.to(this.color3, 5, {
-      r : Math.random() * 255,
-      g : Math.random() * 255,
-      b : Math.random() * 255,
+      r: Math.random() * 255,
+      g: Math.random() * 255,
+      b: Math.random() * 255,
       ease : Quad.easeInOut
     })
   }
@@ -75,30 +67,30 @@ export default class AboutContent {
     this.container.classList.remove('disable-events')
 
     TweenMax.set(this.mainTitle, {
-      display : 'none'
+      display: 'none'
     })
 
     TweenMax.set(this.gradientBackground, {
-      display : 'block'
+      display: 'block'
     })
 
     TweenMax.from(this.gradientBackground, 1, {
-      alpha : 0,
-      ease : Quad.easeOut
+      alpha: 0,
+      ease: Quad.easeOut
     })
 
     TweenMax.set(this.content, {
-      display : 'flex'
+      display: 'flex'
     })
 
     TweenMax.staggerFrom(this.content.children, 1, {
-      y : 20,
-      alpha : 0,
-      ease : Back.easeOut
+      y: 20,
+      alpha: 0,
+      ease: Back.easeOut
     }, 0.1)
 
     TweenMax.to(this.aboutButtonContent, 0.5, {
-      text : 'close'
+      text: 'close'
     })
   }
 
@@ -109,19 +101,19 @@ export default class AboutContent {
     this.container.classList.remove('enable-events')
 
     TweenMax.set(this.mainTitle, {
-      display : 'block'
+      display: 'block'
     })
 
     TweenMax.set(this.gradientBackground, {
-      display : 'none'
+      display: 'none'
     })
 
     TweenMax.set(this.content, {
-      display : 'none'
+      display: 'none'
     })
 
     TweenMax.to(this.aboutButtonContent, 0.5, {
-      text : 'About/Contact'
+      text: 'About/Contact'
     })
   }
 

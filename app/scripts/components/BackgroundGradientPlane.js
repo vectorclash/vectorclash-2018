@@ -13,8 +13,8 @@ export default class BackgroundGradientPlane {
 
     this.material = new THREE.MeshBasicMaterial(
       {
-        map : texture,
-        depthWrite : false
+        map: texture,
+        depthWrite: false
       }
     )
 
@@ -25,10 +25,10 @@ export default class BackgroundGradientPlane {
 
   changeColor() {
     TweenMax.to(this, 5, {
-      colorOne : tinycolor.random().toHexString(),
-      colorTwo : tinycolor.random().toHexString(),
-      colorThree : tinycolor.random().toHexString(),
-      onComplete : this.changeColor.bind(this)
+      colorOne: tinycolor.random().toHexString(),
+      colorTwo: tinycolor.random().toHexString(),
+      colorThree: tinycolor.random().toHexString(),
+      onComplete: this.changeColor.bind(this)
     })
   }
 

@@ -4,12 +4,12 @@ export default class ParticleField {
     this.particles = new THREE.Geometry()
 
     this.particleMaterial = new THREE.PointsMaterial({
-      size : 20,
-      map : texture,
-      blending : THREE.NormalBlending,
-      transparent : true,
-      opacity : 0.4,
-      depthWrite : false
+      size: 20,
+      map: texture,
+      blending: THREE.NormalBlending,
+      transparent: true,
+      opacity: 0.4,
+      depthWrite: false
     })
 
     for (let p = 0; p < this.particleCount; p++) {

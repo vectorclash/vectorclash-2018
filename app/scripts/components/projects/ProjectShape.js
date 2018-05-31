@@ -47,21 +47,21 @@ export default class ProjectShape {
     this.container.add(this.shape)
 
     TweenMax.from(this.shape.scale, 1, {
-      x : 0.0001,
-      y : 0.0001,
-      z : 0.0001,
-      ease : Back.easeOut,
-      delay : this.id * 0.05
+      x: 0.0001,
+      y: 0.0001,
+      z: 0.0001,
+      ease: Back.easeOut,
+      delay: this.id * 0.05
     })
 
     this.rolledOver = false
 
     this.rollMaterial = new THREE.MeshBasicMaterial({
-      color : 0xFFFFFF,
-      wireframe : true,
-      transparent : true,
-      opacity : 0,
-      needsUpdate : true
+      color: 0xFFFFFF,
+      wireframe: true,
+      transparent: true,
+      opacity: 0,
+      needsUpdate: true
     })
 
     this.rollShape = new THREE.Mesh(this.geometry, this.rollMaterial)
@@ -78,18 +78,18 @@ export default class ProjectShape {
     this.status = 'active'
 
     TweenMax.to(this.shape.scale, 2, {
-      x : 120,
-      y : 120,
-      z : 120,
-      ease : Expo.easeOut,
-      delay : 0.2
+      x: 120,
+      y: 120,
+      z: 120,
+      ease: Expo.easeOut,
+      delay: 0.2
     })
 
     TweenMax.to(this.shape.position, 1, {
-      x : 0,
-      y : 0,
-      z : 0,
-      ease : Expo.easeOut
+      x: 0,
+      y: 0,
+      z: 0,
+      ease: Expo.easeOut
     })
   }
 
@@ -97,20 +97,20 @@ export default class ProjectShape {
     this.status = 'standby'
 
     TweenMax.to(this.shape.scale, 0.5, {
-      x : this.scale,
-      y : this.scale,
-      z : this.scale,
-      ease : Power1.easeOut
+      x: this.scale,
+      y: this.scale,
+      z: this.scale,
+      ease: Power1.easeOut
     })
 
     for(let i = 0; i < this.shape.geometry.vertices.length; i++) {
       TweenMax.to(this.shape.geometry.vertices[i], 1, {
-        x : this.vertices[i].x,
-        y : this.vertices[i].y,
-        z : this.vertices[i].z,
-        ease : Bounce.easeOut,
-        delay : i * 0.02,
-        onUpdate : () => {
+        x: this.vertices[i].x,
+        y: this.vertices[i].y,
+        z: this.vertices[i].z,
+        ease: Bounce.easeOut,
+        delay: i * 0.02,
+        onUpdate: () => {
           this.shape.geometry.verticesNeedUpdate = true
         }
       })
@@ -121,17 +121,17 @@ export default class ProjectShape {
     this.status = 'inactive'
 
     TweenMax.to(this.shape.scale, 1, {
-      x : 0.0001,
-      y : 0.0001,
-      z : 0.0001,
-      ease : Expo.easeOut
+      x: 0.0001,
+      y: 0.0001,
+      z: 0.0001,
+      ease: Expo.easeOut
     })
 
     TweenMax.to(this.shape.position, 1, {
-      x : 0,
-      y : 0,
-      z : 0,
-      ease : Expo.easeOut
+      x: 0,
+      y: 0,
+      z: 0,
+      ease: Expo.easeOut
     })
   }
 
@@ -139,22 +139,22 @@ export default class ProjectShape {
     if(!this.rolledOver) {
       this.rolledOver = true
       TweenMax.to(this.rollShape.scale, 0.5, {
-        x : 1.1,
-        y : 1.1,
-        z : 1.1,
-        ease : Back.easeOut
+        x: 1.1,
+        y: 1.1,
+        z: 1.1,
+        ease: Back.easeOut
       })
 
       TweenMax.from(this.rollShape.rotation, 0.5, {
-        x : Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
-        y : Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
-        z : Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
-        ease : Back.easeOut
+        x: Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
+        y: Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
+        z: Math.random() * -(Math.PI / 3) + ((Math.PI / 3) * 2),
+        ease: Back.easeOut
       })
 
       TweenMax.to(this.rollShape.material, 0.5, {
-        opacity : 0.7,
-        ease : Back.easeOut
+        opacity: 0.7,
+        ease: Back.easeOut
       })
     }
   }
@@ -162,15 +162,15 @@ export default class ProjectShape {
   rolloutProject() {
     if(this.rolledOver) {
       TweenMax.to(this.rollShape.scale, 0.5, {
-        x : 0.9,
-        y : 0.9,
-        z : 0.9,
-        ease : Quad.easeOut
+        x: 0.9,
+        y: 0.9,
+        z: 0.9,
+        ease: Quad.easeOut
       })
 
       TweenMax.to(this.rollShape.material, 0.2, {
-        opacity : 0,
-        ease : Quad.easeOut
+        opacity: 0,
+        ease: Quad.easeOut
       })
     }
     this.rolledOver = false

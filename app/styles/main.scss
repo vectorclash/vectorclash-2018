@@ -82,7 +82,7 @@ body {
         }
 
         .about-button {
-          margin-top: 40px;
+          margin-top: 55px;
           cursor: pointer;
           text-align: right;
           user-select: none;
@@ -160,6 +160,22 @@ body {
         background-color: transparent;
         cursor: pointer;
         pointer-events: auto;
+      }
+    }
+
+    .instructions {
+      position: absolute;
+      width: 100%;
+      bottom: 40px;
+      z-index: 10000;
+
+      p {
+        color: white;
+        font-size: 12px;
+        text-shadow: 0px 0px 30px #fc097e;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+        max-width: 400px;
       }
     }
 

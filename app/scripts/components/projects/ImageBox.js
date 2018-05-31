@@ -5,12 +5,12 @@ export default class ImageBox {
     let geometry = new THREE.BoxGeometry(size, size, size)
     let texture = new THREE.TextureLoader().load(url)
     let material = new THREE.MeshBasicMaterial({
-      color : 0xFFFFFF,
-      map : texture,
-      side : THREE.DoubleSide,
-      transparent : true,
-      opacity : 0,
-      needsUpdate : true
+      color: 0xFFFFFF,
+      map: texture,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0,
+      needsUpdate: true
     })
 
     this.mesh = new THREE.Mesh(geometry, material)
