@@ -125,9 +125,11 @@ function init() {
 
       renderer.moveCamera(3, -300, -300, 300)
 
-      TweenMax.to('.title', 1, {
+      TweenMax.to('.title', 2, {
         text: 'VECTOR / CLASH',
-        alpha: 0.5
+        alpha: 0.5,
+        delay: 0.5,
+        ease: Expo.easeOut
       })
 
       TweenMax.to(renderer.rendererElement, 1, {
