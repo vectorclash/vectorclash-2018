@@ -29,12 +29,12 @@ export default class AboutContent {
         this.aboutContent.innerHTML = ''
 
         let title = document.createElement('h1')
-        title.innerHTML = data.title[0].value
+        title.innerHTML = data[0].title[0].value
 
         this.aboutContent.appendChild(title)
 
         let body = document.createElement('div')
-        body.innerHTML = data.body[0].value
+        body.innerHTML = data[0].body[0].value
 
         this.aboutContent.appendChild(body)
       }

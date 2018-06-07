@@ -177,7 +177,7 @@ function disableInteraction() {
   if(instructionsElement) {
     removeInstructions()
   }
-  
+
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('click', onClick)
   renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
