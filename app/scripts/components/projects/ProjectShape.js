@@ -9,6 +9,7 @@ export default class ProjectShape {
     this.scale = 0.7 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
     this.deformationRange = 0.1
+    this.randomRotation = -Math.PI * 0.004 + (Math.random() * Math.PI * 0.008)
 
     this.ranColor = tinycolor.random()
 
@@ -51,7 +52,7 @@ export default class ProjectShape {
       y: 0.0001,
       z: 0.0001,
       ease: Back.easeOut,
-      delay: this.id * 0.05
+      delay: 0.5 + this.id * 0.05
     })
 
     this.rolledOver = false
@@ -180,7 +181,9 @@ export default class ProjectShape {
     if(this.status == 'standby') {
       let time = this.clock.getElapsedTime() * 0.05
 
-      this.angle += noise.simplex2(this.angleIncrease, time) * 0.01
+      this.angle += 0.001
+
+      this.shape.rotation.x += this.randomRotation
 
       this.shape.position.x = Math.cos(this.angle) * this.radius
       this.shape.position.y = Math.sin(this.angle) * this.radius

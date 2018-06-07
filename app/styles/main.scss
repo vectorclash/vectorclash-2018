@@ -11,12 +11,16 @@ body {
   margin: 0;
   overflow: hidden;
 
+  .hidden-title {
+    display: none;
+  }
+
   .main-container {
     position: fixed;
     width: 100%;
     height: 100%;
     z-index: 0;
-    background-image: linear-gradient(42deg, #4400a7, #ff0063);
+    background-image: linear-gradient(42deg, #00e0ff, #00ffb3);
 
     .gradient-background {
       position: absolute;
@@ -76,7 +80,7 @@ body {
           background-size: contain;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          opacity: 0.5;
+          opacity: 0.8;
           line-height: 85px;
           margin-top: 40px;
         }
@@ -168,6 +172,7 @@ body {
       width: 100%;
       bottom: 40px;
       z-index: 10000;
+      opacity: 0;
 
       p {
         color: white;
@@ -216,6 +221,7 @@ body {
           letter-spacing: 0.3px;
           width : 400px;
           color: white;
+          text-shadow: 0px 0px 20px black;
         }
       }
     }
@@ -225,6 +231,7 @@ body {
       width: 100%;
       height: 100%;
       z-index: 50;
+      opacity: 0;
     }
   }
 }

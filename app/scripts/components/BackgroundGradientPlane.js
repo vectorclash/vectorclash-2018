@@ -6,7 +6,7 @@ export default class BackgroundGradientPlane {
     this.colorTwo = tinycolor.random().toHexString()
     this.colorThree = tinycolor.random().toHexString()
 
-    this.geometry = new THREE.PlaneGeometry(6000, 6000)
+    this.geometry = new THREE.PlaneGeometry(7000, 7000)
 
     let texture = new THREE.Texture( this.generateTexture() )
     texture.needsUpdate = true

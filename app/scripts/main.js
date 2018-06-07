@@ -29,6 +29,8 @@ let spaceTexture
 let aboutContent
 let isMobile = false
 let instructionsElement
+let hiddenTitleElement
+let titles = ['Vectorclash', 'Omnichromatic', 'Geometric']
 
 function preloadSpace() {
   let spaceLoader = new THREE.TextureLoader()
@@ -45,6 +47,8 @@ function init() {
   detectIfMobile()
 
   mainContainer = document.querySelector('.main-container')
+
+  hiddenTitleElement = document.querySelector('.hidden-title')
 
   instructionsElement = document.querySelector('.instructions')
 
@@ -95,7 +99,8 @@ function init() {
         x: 1,
         y: 1,
         z: 1,
-        ease: Expo.easeOut
+        ease: Expo.easeOut,
+        delay: 1
       })
 
       space = new BackgroundSpacePlane(spaceTexture)
@@ -118,7 +123,20 @@ function init() {
         }
       )
 
-      renderer.moveCamera(1, -300, -300, 300)
+      renderer.moveCamera(3, -300, -300, 300)
+
+      TweenMax.to('.title', 1, {
+        text: 'VECTOR / CLASH',
+        alpha: 0.5
+      })
+
+      TweenMax.to(renderer.rendererElement, 1, {
+        alpha: 1
+      })
+
+      TweenMax.to(instructionsElement, 1, {
+        alpha: 1
+      })
     }
   })
 
@@ -130,6 +148,7 @@ function init() {
   })
 
   enableInteraction()
+  changeTitle()
 
   TweenMax.ticker.addEventListener('tick', loop)
 }
@@ -155,6 +174,10 @@ function enableInteraction() {
 }
 
 function disableInteraction() {
+  if(instructionsElement) {
+    removeInstructions()
+  }
+  
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('click', onClick)
   renderer.rendererElement.removeEventListener('touchstart', onTouchStart)
@@ -336,6 +359,21 @@ function closeProjects() {
   activeProjectDetail.animateOut()
   TweenMax.delayedCall(1, () => {
     projectContainer.remove(activeProjectDetail.container)
+  })
+}
+
+function changeTitle() {
+  let ranTitle = titles[Math.floor(Math.random() * titles.length)]
+  TweenMax.to(hiddenTitleElement, 1, {
+    text: ranTitle,
+    onUpdate: () => {
+      document.title = hiddenTitleElement.textContent
+    },
+    onComplete: () => {
+      TweenMax.delayedCall(1 + Math.random() * 5, () => {
+        changeTitle()
+      })
+    }
   })
 }
 
