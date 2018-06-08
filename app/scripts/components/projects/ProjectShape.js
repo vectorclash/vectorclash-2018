@@ -5,7 +5,7 @@ export default class ProjectShape {
     this.id = id
     this.clock = new THREE.Clock
     this.radius = id * 50
-    this.angle = Math.random() * 10
+    this.angle = Math.random() * 360
     this.scale = 0.7 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
     this.deformationRange = 0.1

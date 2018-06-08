@@ -68,7 +68,7 @@ body {
         .title {
           width: 430px;
           font-size: 90px;
-          @media only screen and (max-width: 640px) {
+          @media only screen and (max-width: 640px), (max-height: 460px) {
             font-size: 60px;
             line-height: 55px;
             margin-top: 20px;
@@ -91,11 +91,12 @@ body {
           cursor: pointer;
           text-align: right;
           user-select: none;
-          overflow: none;
+          overflow: hidden;
 
           p {
             display: inline-block;
             transition: 0.2s;
+            overflow: hidden;
           }
         }
 
@@ -175,13 +176,20 @@ body {
       z-index: 10000;
       opacity: 0;
 
-      p {
-        color: white;
-        font-size: 12px;
-        text-shadow: 0px 0px 30px #fc097e;
-        letter-spacing: 0.5px;
-        opacity: 0.8;
-        max-width: 400px;
+      @media only screen and (max-height: 400px) {
+        display: none;
+      }
+
+      .flex-container {
+
+        p {
+          color: white;
+          font-size: 12px;
+          text-shadow: 0px 0px 30px #fc097e;
+          letter-spacing: 0.5px;
+          opacity: 0.8;
+          max-width: 400px;
+        }
       }
     }
 
