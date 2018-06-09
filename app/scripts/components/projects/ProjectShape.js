@@ -6,6 +6,7 @@ export default class ProjectShape {
     this.clock = new THREE.Clock
     this.radius = id * 50
     this.angle = Math.random() * 360
+    this.rotationSpeed = -0.005 + Math.random() * 0.01
     this.scale = 0.7 + Math.random() * 1.3
     this.angleIncrease = 0.01 + Math.random() * 0.05
     this.deformationRange = 0.1
@@ -181,7 +182,7 @@ export default class ProjectShape {
     if(this.status == 'standby') {
       let time = this.clock.getElapsedTime() * 0.05
 
-      this.angle += 0.001
+      this.angle += this.rotationSpeed
 
       this.shape.rotation.x += this.randomRotation
 

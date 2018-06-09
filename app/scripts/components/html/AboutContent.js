@@ -100,17 +100,47 @@ export default class AboutContent {
     this.container.classList.add('disable-events')
     this.container.classList.remove('enable-events')
 
-    TweenMax.set(this.mainTitle, {
-      display: 'block'
+    TweenMax.from(this.mainTitle, 1, {
+      alpha: 0,
+      y: 20,
+      ease: Back.easeOut,
+      onStart: () => {
+        TweenMax.set(this.mainTitle, {
+          display: 'block'
+        })
+      }
     })
 
-    TweenMax.set(this.gradientBackground, {
-      display: 'none'
+    TweenMax.to(this.gradientBackground, 0.5, {
+      alpha: 0,
+      ease: Quad.easeOut,
+      delay: 0.3,
+      onComplete: () => {
+        TweenMax.set(this.gradientBackground, {
+          display: 'none',
+          alpha: 0.7
+        })
+      }
     })
 
-    TweenMax.set(this.content, {
-      display: 'none'
-    })
+    TweenMax.staggerTo(this.content.children, 0.3,
+      {
+        y: 20,
+        alpha: 0,
+        ease: Back.easeIn
+      },
+      -0.1,
+      () => {
+        TweenMax.set(this.content.children, {
+          y: 0,
+          alpha: 1
+        })
+
+        TweenMax.set(this.content, {
+          display: 'none'
+        })
+      }
+    )
 
     TweenMax.to(this.aboutButtonContent, 0.5, {
       text: 'About/Contact'

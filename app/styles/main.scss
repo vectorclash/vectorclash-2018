@@ -87,6 +87,8 @@ body {
         }
 
         .about-button {
+          display: inline-block;
+          float: right;
           margin-top: 55px;
           cursor: pointer;
           text-align: right;
