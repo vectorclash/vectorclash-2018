@@ -99,8 +99,8 @@ function init() {
         x: 1,
         y: 1,
         z: 1,
-        ease: Expo.easeOut,
-        delay: 1
+        ease: Quad.easeInOut,
+        delay: 0.5
       })
 
       space = new BackgroundSpacePlane(spaceTexture)
@@ -256,12 +256,12 @@ function disableSpaceBackground() {
   })
 
   TweenMax.to(background.mesh.position, 1, {
-    z: -3000,
+    z: -5000,
     ease : Quad.easeOut
   })
 
   TweenMax.to(space.mesh.position, 1, {
-    z: -2000,
+    z: -4700,
     ease : Quad.easeOut
   })
 
