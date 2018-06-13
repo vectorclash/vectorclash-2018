@@ -256,12 +256,12 @@ function disableSpaceBackground() {
   })
 
   TweenMax.to(background.mesh.position, 1, {
-    z: -5000,
+    z: -3000,
     ease : Quad.easeOut
   })
 
   TweenMax.to(space.mesh.position, 1, {
-    z: -4700,
+    z: -2000,
     ease : Quad.easeOut
   })
 
