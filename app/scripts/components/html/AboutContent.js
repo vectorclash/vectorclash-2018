@@ -104,6 +104,7 @@ export default class AboutContent {
       alpha: 0,
       y: 20,
       ease: Back.easeOut,
+      delay: 0.4,
       onStart: () => {
         TweenMax.set(this.mainTitle, {
           display: 'block'
