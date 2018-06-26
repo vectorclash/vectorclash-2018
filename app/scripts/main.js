@@ -228,7 +228,7 @@ function testInteractiveObjects() {
 }
 
 function openProjectDetail(pID) {
-  let newProjectDetail = new ProjectDetails(projectData[pID])
+  let newProjectDetail = new ProjectDetails(projectData[pID], camera)
   activeProjectDetail = newProjectDetail
   projectContainer.add(newProjectDetail.container)
   projectCSSContainer.add(newProjectDetail.cssContainer)

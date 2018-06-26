@@ -1,13 +1,16 @@
 import tinycolor from 'tinycolor2'
 import ImagePlane from './ImagePlane'
+import ImageBox from './ImageBox'
 import VideoShape from './VideoShape'
 
 export default class ProjectDetails {
-  constructor(data) {
+  constructor(data, camera) {
     this.title = data.title[0].value
     this.body = data.body[0].value
     this.images = data.field_image
     this.videos = data.field_video
+
+    this.cameraReference = camera
 
     // build css 3d objects, title and body
 
@@ -72,6 +75,9 @@ export default class ProjectDetails {
 
     this.container = new THREE.Object3D()
 
+    this.imageMeshArray = []
+    this.imageActive = false
+
     this.rowWidth = 4
     this.imageSize = 100
     this.imagePadding = this.imageSize * 0.05
@@ -80,13 +86,15 @@ export default class ProjectDetails {
     let imageY = 0
 
     for (var i = 0; i < this.images.length; i++) {
-      let newImagePlane = new ImagePlane(this.images[i].url, this.imageSize)
+      let newImageBox = new ImageBox(this.images[i].url, this.imageSize)
 
-      newImagePlane.mesh.position.set(
+      newImageBox.mesh.position.set(
         imageX,
         imageY,
         -150
       )
+
+      newImageBox.mesh.originalPosition = new THREE.Vector3(imageX, imageY, -150)
 
       imageX += this.imageSize + this.imagePadding
       if(imageX > this.imageSize * this.rowWidth && i != this.images.length - 1) {
@@ -94,7 +102,8 @@ export default class ProjectDetails {
         imageY -= this.imageSize + this.imagePadding
       }
 
-      this.container.add(newImagePlane.mesh)
+      this.container.add(newImageBox.mesh)
+      this.imageMeshArray.push(newImageBox.mesh)
     }
 
     let imageContainerX = 0
@@ -157,6 +166,9 @@ export default class ProjectDetails {
       ease: Quad.easeInOut
     })
 
+    this.raycaster = new THREE.Raycaster()
+    this.mouse = new THREE.Vector2()
+
     return this
   }
 
@@ -217,6 +229,11 @@ export default class ProjectDetails {
       ease: Back.easeOut,
       delay: 0.3
     })
+
+    TweenMax.delayedCall(1, () => {
+      window.addEventListener('click', this.testImageInteraction.bind(this))
+      window.addEventListener('mousemove', this.onMouseMove.bind(this))
+    })
   }
 
   animateOut() {
@@ -250,5 +267,111 @@ export default class ProjectDetails {
       y: 0.00001,
       z: 0.00001
     })
+  }
+
+  testImageInteraction() {
+    this.raycaster.setFromCamera(this.mouse, this.cameraReference)
+    let intersects = this.raycaster.intersectObjects(this.imageMeshArray)
+    if(intersects.length > 0) {
+      for(let i = 0; i < this.imageMeshArray.length; i++) {
+        if(this.imageMeshArray[i] == intersects[0].object) {
+          if(this.imageMeshArray[i].scale.x > 2) {
+            this.shrinkImage(this.imageMeshArray[i])
+            TweenMax.delayedCall(0.5, () => {
+              this.imageActive = false
+            })
+          } else {
+            this.enlargeImage(this.imageMeshArray[i])
+            this.imageActive = true
+          }
+        } else {
+          this.shrinkImage(this.imageMeshArray[i])
+        }
+      }
+    }
+  }
+
+  enlargeImage(image) {
+    TweenMax.to(image.scale, 0.5, {
+      x: 5,
+      y: 5,
+      z: 5,
+      ease: Back.easeInOut
+    })
+
+    TweenMax.to(image.position, 0.5, {
+      x: 200,
+      y: -100,
+      z: -100,
+      ease: Back.easeInOut
+    })
+  }
+
+  shrinkImage(image) {
+    TweenMax.to(image.scale, 0.2, {
+      x: 1,
+      y: 1,
+      z: 1,
+      ease: Expo.easeInOut
+    })
+
+    TweenMax.to(image.position, 0.2, {
+      x: image.originalPosition.x,
+      y: image.originalPosition.y,
+      z: image.originalPosition.z,
+      ease: Expo.easeInOut
+    })
+  }
+
+  overImage(image) {
+    TweenMax.to(image.scale, 0.5, {
+      z: 50,
+      ease: Bounce.easeOut
+    })
+
+    TweenMax.to(image.position, 0.5, {
+      z: -120,
+      ease: Quad.easeOut
+    })
+  }
+
+  outImage(image) {
+    TweenMax.to(image.scale, 0.4, {
+      z: 1,
+      ease: Bounce.easeOut
+    })
+
+    TweenMax.to(image.position, 0.4, {
+      z: -150,
+      ease: Bounce.easeOut
+    })
+  }
+
+  testRollOver() {
+    this.raycaster.setFromCamera(this.mouse, this.cameraReference)
+    let intersects = this.raycaster.intersectObjects(this.imageMeshArray)
+
+    if(!this.imageActive) {
+      if(intersects.length > 0) {
+        for(let i = 0; i < this.imageMeshArray.length; i++) {
+          if(this.imageMeshArray[i] == intersects[0].object) {
+            this.overImage(this.imageMeshArray[i])
+          } else {
+            this.outImage(this.imageMeshArray[i])
+          }
+        }
+      } else {
+        for(let i = 0; i < this.imageMeshArray.length; i++) {
+          this.outImage(this.imageMeshArray[i])
+        }
+      }
+    }
+  }
+
+  onMouseMove(event) {
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+
+    this.testRollOver()
   }
 }
