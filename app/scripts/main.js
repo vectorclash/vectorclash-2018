@@ -480,18 +480,12 @@ function onCloseOut(event) {
 }
 
 function onCloseClick(event) {
-  TweenMax.to('#line-one', 0.5, {
-    y: 100,
-    rotation: 100,
-    skewY: -10,
+  TweenMax.to('#line-one', 0.2, {
     drawSVG: 0,
     ease: Quad.easeIn
   })
 
-  TweenMax.to('#line-two', 0.5, {
-    y: 100,
-    rotation: -100,
-    skewY: 10,
+  TweenMax.to('#line-two', 0.2, {
     drawSVG: 0,
     ease: Quad.easeIn
   })
