@@ -23,7 +23,7 @@ let activeProjectDetail
 let raycaster
 let mouse
 let projectIsActive = false
-let closeButton, closeButtonHit
+let closeButton
 let background, space, particles, shapeSwirl, projectContainer, projectCSSContainer
 let spaceTexture
 let aboutContent
@@ -143,11 +143,9 @@ function init() {
   })
 
   closeButton = document.querySelector('.close-button')
-  closeButtonHit = document.querySelector('.close-button-hitarea')
-  TweenMax.set(closeButton, {
-    scaleX: 0.6,
-    scaleY: 0.6
-  })
+  closeButton.addEventListener('mouseover', onCloseOver)
+  closeButton.addEventListener('mouseout', onCloseOut)
+  closeButton.addEventListener('click', onCloseClick)
 
   enableInteraction()
   changeTitle()
@@ -243,6 +241,24 @@ function disableSpaceBackground() {
 
   renderer.adjustFog(2, 1, 5000)
 
+  TweenMax.from('#outer', 0.7, {
+    drawSVG: 0,
+    ease: Expo.easOut,
+    delay: 0.1
+  })
+
+  TweenMax.from('#line-one', 0.3, {
+    drawSVG: 0,
+    ease: Elastic.easOut,
+    delay: 0.5
+  })
+
+  TweenMax.from('#line-two', 0.3, {
+    drawSVG: 0,
+    ease: Elastic.easOut,
+    delay: 0.6
+  })
+
   TweenMax.from(closeButton, 1, {
     y : 360,
     alpha : 0,
@@ -251,7 +267,7 @@ function disableSpaceBackground() {
       closeButton.style.display = 'block'
     },
     onComplete : () => {
-      closeButtonHit.addEventListener('click', closeProjects)
+      closeButton.addEventListener('click', closeProjects)
     }
   })
 
@@ -287,9 +303,10 @@ function enableSpaceBackground() {
 
   renderer.moveCamera(1, ranX, ranY, 300)
 
-  TweenMax.to(closeButton, 1, {
+  TweenMax.to(closeButton, 0.5, {
     alpha: 0,
     ease: Expo.easeOut,
+    delay: 0.2,
     onComplete : () => {
       closeButton.style.display = 'none'
       closeButton.style.opacity = 1
@@ -426,6 +443,95 @@ function onTouchStart(event) {
   if(instructionsElement) {
     removeInstructions()
   }
+}
+
+function onCloseOver(event) {
+  TweenMax.to('#line-one', 0.5, {
+    strokeWidth: 10,
+    ease: Back.easeOut
+  })
+
+  TweenMax.to('#line-two', 0.5, {
+    strokeWidth: 10,
+    ease: Back.easeOut
+  })
+
+  TweenMax.to('#outer', 0.5, {
+    strokeWidth: 3,
+    ease: Back.easeOut
+  })
+}
+
+function onCloseOut(event) {
+  TweenMax.to('#line-one', 0.3, {
+    strokeWidth: 6,
+    ease: Expo.easeOut
+  })
+
+  TweenMax.to('#line-two', 0.3, {
+    strokeWidth: 6,
+    ease: Expo.easeOut
+  })
+
+  TweenMax.to('#outer', 0.5, {
+    strokeWidth: 6,
+    ease: Back.easeOut
+  })
+}
+
+function onCloseClick(event) {
+  TweenMax.to('#line-one', 0.5, {
+    y: 100,
+    rotation: 100,
+    skewY: -10,
+    drawSVG: 0,
+    ease: Quad.easeIn
+  })
+
+  TweenMax.to('#line-two', 0.5, {
+    y: 100,
+    rotation: -100,
+    skewY: 10,
+    drawSVG: 0,
+    ease: Quad.easeIn
+  })
+
+  TweenMax.to('#outer', 0.5, {
+    y: 100,
+    scaleX: 0.2,
+    scaleY: 0.2,
+    strokeWidth: 20,
+    ease: Quad.easeIn
+  })
+
+  TweenMax.delayedCall(1, () => {
+    TweenMax.set('#outer', {
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+      strokeWidth: 6
+    })
+
+    TweenMax.set('#line-one', {
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+      rotation: 0,
+      skewY: 0,
+      strokeWidth: 6,
+      drawSVG: 1
+    })
+
+    TweenMax.set('#line-two', {
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+      rotation: 0,
+      skewY: 0,
+      strokeWidth: 6,
+      drawSVG: 1
+    })
+  })
 }
 
 // initiate

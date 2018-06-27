@@ -104,6 +104,8 @@ export default class ProjectDetails {
 
       this.container.add(newImageBox.mesh)
       this.imageMeshArray.push(newImageBox.mesh)
+
+      newImageBox.mesh.rolledOver = false
     }
 
     let imageContainerX = 0
@@ -296,14 +298,14 @@ export default class ProjectDetails {
       x: 5,
       y: 5,
       z: 5,
-      ease: Back.easeInOut
+      ease: Expo.easeInOut
     })
 
     TweenMax.to(image.position, 0.5, {
       x: 200,
       y: -100,
       z: -100,
-      ease: Back.easeInOut
+      ease: Expo.easeInOut
     })
   }
 
@@ -325,23 +327,23 @@ export default class ProjectDetails {
 
   overImage(image) {
     TweenMax.to(image.scale, 0.5, {
-      z: 50,
-      ease: Bounce.easeOut
+      z: 54,
+      ease: Expo.easeInOut
     })
 
     TweenMax.to(image.position, 0.5, {
-      z: -120,
-      ease: Quad.easeOut
+      z: -170,
+      ease: Expo.easeInOut
     })
   }
 
   outImage(image) {
-    TweenMax.to(image.scale, 0.4, {
+    TweenMax.to(image.scale, 0.3, {
       z: 1,
       ease: Bounce.easeOut
     })
 
-    TweenMax.to(image.position, 0.4, {
+    TweenMax.to(image.position, 0.3, {
       z: -150,
       ease: Bounce.easeOut
     })
@@ -351,17 +353,32 @@ export default class ProjectDetails {
     this.raycaster.setFromCamera(this.mouse, this.cameraReference)
     let intersects = this.raycaster.intersectObjects(this.imageMeshArray)
 
-    if(!this.imageActive) {
-      if(intersects.length > 0) {
+    if(intersects.length > 0) {
+      TweenMax.set('.main-container', {
+        cursor: 'pointer'
+      })
+
+      if(!this.imageActive) {
         for(let i = 0; i < this.imageMeshArray.length; i++) {
           if(this.imageMeshArray[i] == intersects[0].object) {
-            this.overImage(this.imageMeshArray[i])
+            if(!this.imageMeshArray[i].rolledOver) {
+              this.imageMeshArray[i].rolledOver = true
+              this.overImage(this.imageMeshArray[i])
+            }
           } else {
+            this.imageMeshArray[i].rolledOver = false
             this.outImage(this.imageMeshArray[i])
           }
         }
-      } else {
+      }
+    } else {
+      TweenMax.set('.main-container', {
+        cursor: 'auto'
+      })
+
+      if(!this.imageActive) {
         for(let i = 0; i < this.imageMeshArray.length; i++) {
+          this.imageMeshArray[i].rolledOver = false
           this.outImage(this.imageMeshArray[i])
         }
       }

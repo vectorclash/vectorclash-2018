@@ -78,7 +78,7 @@ export default class VideoShape {
     })
 
     TweenMax.to(this.mesh.material, 1, {
-      opacity: 1
+      opacity: 0.7
     })
 
     this.videoElement.play()
