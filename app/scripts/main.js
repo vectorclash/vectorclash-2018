@@ -490,12 +490,9 @@ function onCloseClick(event) {
     ease: Quad.easeIn
   })
 
-  TweenMax.to('#outer', 0.5, {
-    y: 100,
-    scaleX: 0.2,
-    scaleY: 0.2,
-    strokeWidth: 20,
-    ease: Quad.easeIn
+  TweenMax.to('#outer', 0.3, {
+    strokeWidth: 0,
+    ease: Quad.easeOut
   })
 
   TweenMax.delayedCall(1, () => {

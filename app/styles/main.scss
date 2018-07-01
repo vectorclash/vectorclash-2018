@@ -153,16 +153,16 @@ body {
       position: fixed;
       bottom: 20px;
       left: 50%;
-      margin-left: -60px * 0.5;
-      width: 60px;
-      height: 60px;
+      margin-left: -50px * 0.5;
+      width: 50px;
+      height: 50px;
       display: none;
       cursor: pointer;
       transform-origin: center;
       z-index: 100;
 
       line, path, circle {
-        transform-origin: center;
+        transform-origin: middle;
       }
     }
 
