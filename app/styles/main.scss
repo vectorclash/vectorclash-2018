@@ -3,6 +3,10 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu:400,700');
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
   position: relative;
   background: #fafafa;
@@ -40,6 +44,7 @@ body {
       font-size: 16px;
       color: white;
       letter-spacing: 0.5px;
+      box-sizing: content-box;
 
       a {
         color: white;

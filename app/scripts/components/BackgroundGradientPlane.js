@@ -8,7 +8,7 @@ export default class BackgroundGradientPlane {
 
     this.geometry = new THREE.PlaneGeometry(7000, 7000)
 
-    let texture = new THREE.Texture( this.generateTexture() )
+    let texture = new THREE.Texture(this.generateTexture())
     texture.needsUpdate = true
 
     this.material = new THREE.MeshBasicMaterial(
@@ -36,16 +36,16 @@ export default class BackgroundGradientPlane {
   	let size = 1024
 
   	// create canvas
-  	let canvas = document.createElement( 'canvas' )
+  	let canvas = document.createElement('canvas')
   	canvas.width = size
   	canvas.height = size
 
   	// get context
-  	let context = canvas.getContext( '2d' )
+  	let context = canvas.getContext('2d')
 
   	// draw gradient
   	context.rect( 0, 0, size, size )
-  	let gradient = context.createLinearGradient( 0, 0, size, size )
+  	let gradient = context.createLinearGradient(0, 0, size, size)
 
   	gradient.addColorStop(0.3, this.colorOne)
   	gradient.addColorStop(0.5, this.colorTwo)
@@ -57,7 +57,7 @@ export default class BackgroundGradientPlane {
   }
 
   update() {
-    let texture = new THREE.Texture( this.generateTexture() )
+    let texture = new THREE.Texture(this.generateTexture())
     texture.needsUpdate = true
 
     this.material.map = texture
